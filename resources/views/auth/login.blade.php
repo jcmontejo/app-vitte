@@ -64,7 +64,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Primary Meta Tags -->
-    <title>Control de Nomina - Inicio de sesión</title>
+    <title>App Vitte - Inicio de sesión</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="Control de Nomina - Inicio de sesión">
     <meta name="author" content="Juan Carlos Montejo">
@@ -96,8 +96,8 @@
                     <div class="col-12 d-flex align-items-center justify-content-center">
                         <div class="bg-white shadow border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                             <div class="text-center text-md-center mb-4 mt-md-0">
-                                {{-- <h1 class="mb-0 h3">Entrar a la plataforma</h1> --}}
-                                <h1 class="mb-0 h3">Iniciar Sesión</h1>
+                                <h1 class="mb-0 h3">Plataforma de Control Operativo</h1>
+                                <h1 class="mb-0 h3">Vitte Inicio de Sesión</h1>
                             </div>
                             <form method="POST" action="{{ route('login.custom') }}" class="mt-4">
                                 @csrf
