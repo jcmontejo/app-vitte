@@ -97,7 +97,7 @@
                         <div class="bg-white shadow border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                             <div class="text-center text-md-center mb-4 mt-md-0">
                                 <h1 class="mb-0 h3">Plataforma de Control Operativo</h1>
-                                <h1 class="mb-0 h3">Vitte Inicio de Sesión</h1>
+                                {{-- <h1 class="mb-0 h3">Vitte Inicio de Sesión</h1> --}}
                             </div>
                             <form method="POST" action="{{ route('login.custom') }}" class="mt-4">
                                 @csrf
@@ -105,7 +105,7 @@
                                 <div class="form-group mb-4">
                                     <label for="email">Usuario</label>
                                     <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1">
+                                        {{-- <span class="input-group-text" id="basic-addon1">
                                             <svg class="icon icon-xs text-gray-600" fill="currentColor"
                                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -114,7 +114,7 @@
                                                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z">
                                                 </path>
                                             </svg>
-                                        </span>
+                                        </span> --}}
                                         <input type="email" class="form-control" placeholder="EJE.: maria@dominio.com"
                                             id="email" name="email" required autofocus>
                                         @if ($errors->has('email'))
