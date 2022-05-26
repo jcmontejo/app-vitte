@@ -37,7 +37,7 @@
                             <th class="fit-column thColor">Planta de Trabajo</th>
                             <th class="fit-column thColor">Teléfono</th>
                             <th class="fit-column thColor">Correo Electrónico</th>
-                            <th class="fit-column thColor">Dirección</th>
+                            <th class="fit-column thColor">Domicilio Empleado</th>
                         </tr>
                     </thead>
                     <tbody>
