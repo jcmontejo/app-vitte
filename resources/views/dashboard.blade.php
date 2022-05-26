@@ -1,4 +1,4 @@
 @extends('layouts.default')
 @section('content')
-<h1>Sistema de Gestión de Nómina</h1>
+<h1>Vitte Plataforma Operativa</h1>
 @endsection
