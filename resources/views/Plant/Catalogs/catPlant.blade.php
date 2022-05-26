@@ -8,11 +8,13 @@
                 @csrf
                 {{ method_field($obj->getMethod()) }}
                 <input type="hidden" name="dblCatPlant" class="form-control" value="{{ $obj->dblCatPlant }}" />
+                @if ($obj->dblCatPlant>0)
                 <div class="row">
                     <div class="form-group col-md-4">
                         {!! QrCode::color(0,100,0)->size(200)->generate($obj->dblCatPlant) !!}
                     </div>
                 </div>
+                @endif
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label>Nombre<span class="text-danger">*</span></label>
