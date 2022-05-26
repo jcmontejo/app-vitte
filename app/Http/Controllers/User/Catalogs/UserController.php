@@ -55,7 +55,7 @@ class UserController extends Controller
         $obj->strPasswordText = $psd;
         $obj->save();
 
-        $request->session()->flash('message', 'The record has been saved!');
+        $request->session()->flash('message', 'El registro ha sido guardado!');
 
         return redirect()->route('user.index');
     }
@@ -86,7 +86,7 @@ class UserController extends Controller
         $obj->dblCatTypeUser = $request->dblCatTypeUser;
         $obj->dblCatPlant = $request->dblCatPlant;
         $obj->save();
-        $request->session()->flash('message', 'The record has been updated!');
+        $request->session()->flash('message', 'Registro actualizado!');
         return redirect()->route('user.index');
     }
 
