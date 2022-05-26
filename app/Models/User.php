@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Plant\Catalogs\CatPlant;
+use App\Models\TypeUser\Catalogs\CatTypeUser;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -37,4 +40,34 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getMethod()
+    {
+        return $this->id ? 'put' : 'post';
+    }
+
+    public function getUrl()
+    {
+        return $this->id ? 'edit' : 'create';
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->intConsecutive = User::max('intConsecutive') + 1;
+            $model->datCreate = Carbon::now();
+        });
+    }
+
+    public function plant(): BelongsTo
+    {
+        return $this->belongsTo(CatPlant::class,'dblCatPlant','dblCatPlant');
+    }
+
+    public function type_user(): BelongsTo
+    {
+        return $this->belongsTo(CatTypeUser::class,'dblCatTypeUser','dblCatTypeUser');
+    }
 }

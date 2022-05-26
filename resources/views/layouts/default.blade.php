@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Primary Meta Tags -->
-    <title>Control de Nomina - Panel de control</title>
+    <title>Control Operativo - @yield('title', $page_title ?? '')</title>
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('/assets/img/favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/assets/img/favicon/favicon-32x32.png') }}">
@@ -13,13 +13,25 @@
     <link rel="mask-icon" href="{{ asset('/assets/img/favicon/safari-pinned-tab.svg') }}" color="#ffffff">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ asset('css_system/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css_system/dataTables.bootstrap5.min.css') }}">
     <!-- Sweet Alert -->
     <link type="text/css" href="{{ asset('/vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
     <!-- Notyf -->
     <link type="text/css" href="{{ asset('/vendor/notyf/notyf.min.css') }}" rel="stylesheet">
     <!-- Volt CSS -->
     <link type="text/css" href="{{ asset('/css/volt.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+    @yield('styles')
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/jquery.plupload.queue/css/jquery.plupload.queue.css">
+    {{-- Notiflix --}}
+    <link rel="stylesheet" href="{{ asset('/notiflix/notiflix-2.3.2.min.css') }}">
 </head>
 
 <body>
@@ -92,6 +104,49 @@
                         </span>
                         <span class="sidebar-text">Inicio</span>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" data-bs-target="#submenu-app">
+                        <span>
+                            <span class="sidebar-icon">
+                                <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </span>
+                            <span class="sidebar-text">Seguridad</span>
+                        </span>
+                        <span class="link-arrow">
+                            <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </span>
+                    </span>
+                    <div class="multi-level collapse " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ url('/type_user/type_user') }}">
+                                    <span class="sidebar-text">Tipos de Usuario</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ url('/plant/plant') }}">
+                                    <span class="sidebar-text">Plantas</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ url('/user/user') }}">
+                                    <span class="sidebar-text">Usuarios</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://demo.themesberg.com/volt-pro/pages/kanban.html" target="_blank"
@@ -383,7 +438,7 @@
                         <!-- Search form -->
                         <form class="navbar-search form-inline" id="navbar-search-main">
                             <div class="input-group input-group-merge search-bar">
-                                <span class="input-group-text" id="topbar-addon">
+                                {{-- <span class="input-group-text" id="topbar-addon">
                                     <svg class="icon icon-xs" x-description="Heroicon name: solid/search"
                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                         aria-hidden="true">
@@ -391,16 +446,16 @@
                                             d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                                             clip-rule="evenodd"></path>
                                     </svg>
-                                </span>
-                                <input type="text" class="form-control" id="topbarInputIconLeft" placeholder="Buscar"
-                                    aria-label="Search" aria-describedby="topbar-addon">
+                                </span> --}}
+                                {{-- <input type="text" class="form-control" id="topbarInputIconLeft" placeholder="Buscar"
+                                    aria-label="Search" aria-describedby="topbar-addon"> --}}
                             </div>
                         </form>
                         <!-- / Search form -->
                     </div>
                     <!-- Navbar links -->
                     <ul class="navbar-nav align-items-center">
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link text-dark notification-bell unread dropdown-toggle"
                                 data-unread-notifications="true" href="#" role="button" data-bs-toggle="dropdown"
                                 data-bs-display="static" aria-expanded="false">
@@ -537,7 +592,7 @@
                                     </a>
                                 </div>
                             </div>
-                        </li>
+                        </li> --}}
                         <li class="nav-item dropdown ms-lg-3">
                             <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -545,7 +600,8 @@
                                     <img class="avatar rounded-circle" alt="Image placeholder"
                                         src="../../assets/img/team/profile-picture-3.jpg">
                                     <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                                        <span class="mb-0 font-small fw-bold text-gray-900">Favian Alvarez</span>
+                                        <span
+                                            class="mb-0 font-small fw-bold text-gray-900">{{ Auth::user()->name }}</span>
                                     </div>
                                 </div>
                             </a>
@@ -603,7 +659,7 @@
             </div>
         </nav>
         @yield('content')
-        <footer class="bg-white rounded shadow p-5 mb-4 mt-4">
+        {{-- <footer class="bg-white rounded shadow p-5 mb-4 mt-4">
             <div class="row">
                 <div class="col-12 col-md-4 col-xl-6 mb-4 mb-md-0">
                     <p class="mb-0 text-center text-lg-start">© 2022-<span class="current-year"></span> <a
@@ -613,8 +669,14 @@
                 <div class="col-12 col-md-8 col-xl-6 text-center text-lg-start">
                 </div>
             </div>
-        </footer>
+        </footer> --}}
     </main>
+    {{-- JQUERY --}}
+    <script src="{{ asset('/js_system/jquery-3.5.1.js') }}"></script>
+    {{-- DATATABLES --}}
+    Plain text1<br>
+    <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
+    <script src="{{ asset('/js_system/dataTables.bootstrap5.min.js') }}"></script>
     <!-- Core -->
     <script src="{{ asset('/vendor/@popperjs/core/dist/umd/popper.min.js') }}"></script>
     <script src="{{ asset('/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -627,22 +689,19 @@
     <!-- Charts -->
     <script src="{{ asset('/vendor/chartist/dist/chartist.min.js') }}"></script>
     <script src="{{ asset('/vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script>
-    <!-- Datepicker -->
-    <script src="{{ asset('/vendor/vanillajs-datepicker/dist/js/datepicker.min.js') }}"></script>
-    <!-- Sweet Alerts 2 -->
-    <script src="{{ asset('/vendor/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
-    <!-- Moment JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
-    <!-- Vanilla JS Datepicker -->
-    <script src="{{ asset('/vendor/vanillajs-datepicker/dist/js/datepicker.min.js') }}"></script>
-    <!-- Notyf -->
-    <script src="{{ asset('/vendor/notyf/notyf.min.js') }}"></script>
-    <!-- Simplebar -->
-    <script src="{{ asset('/vendor/simplebar/dist/simplebar.min.js') }}"></script>
+    {{-- Notiflix --}}
+    <script src="{{ asset('/notiflix/notiflix-2.3.2.min.js') }}"></script>
+    <script src="{{ asset('/notiflix/notiflix-aio-2.3.2.min.js') }}"></script>
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Volt JS -->
     <script src="{{ asset('/assets/js/volt.js') }}"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/plupload.full.min.js">
+    </script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+    @yield('scripts')
 </body>
 
 </html>
