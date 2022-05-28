@@ -34,6 +34,31 @@ if (!function_exists('EmpleadoSerial')) {
     }
 }
 
+if (!function_exists('SpanishDateFormat')) {
+    function SpanishDateFormat($date)
+    {
+        if ($date == '') {
+            return '';
+        }
+
+        return strtoupper(Carbon::parse($date)->format('Y-m-d'));
+    }
+}
+
+if (!function_exists('EnglishDateTimeFormat')) {
+    function EnglishDateTimeFormat($date)
+    {
+        if ($date == '') {
+            return '';
+        }
+
+        $date = Carbon::parse($date);
+        $date_format = strtoupper($date->format('d-M-y'));
+        $time_format = $date->format('g:i A');
+        return $date_format . ' ' . $time_format;
+    }
+}
+
 function password_generator()
 {
     $password = "";

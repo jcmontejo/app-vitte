@@ -16,14 +16,20 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="p-5 mt-4">
-                                <h1 class="display-4">Completar Indicadores</h1>
+                                <div class="col-sm-8">
+                                    <h4 class="d-inline-block">Indicadores</h4>
+                                </div>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#mdlHistoryWellPump">Historial Indicadores</button>
+                                </div>
                                 <div class="form-group col-md-12 col-lg-12 col-xs-12">
                                     <label>LPS<span class="text-danger">*</span></label>
-                                    <input type="text" name="intLongitude"
-                                        class="form-control @error('intLongitude') is-invalid @enderror"
-                                        placeholder="Introduce longitud"
-                                        value="{{ old('intLongitude') ?? $obj->intLongitude }}" />
-                                    @error('intLongitude')
+                                    <input type="text" name="indicator1"
+                                        class="form-control @error('indicator1') is-invalid @enderror"
+                                        placeholder="Introduce indicador"
+                                        value="{{ old('indicator1') ?? ($obj->well->indicator1 ?? '') }}" />
+                                    @error('indicator1')
                                         <div class="fv-plugins-message-container">
                                             <div data-field="username" data-validator="notEmpty" class="fv-help-block">
                                                 <strong>{{ $message }}</strong>
@@ -33,11 +39,11 @@
                                 </div>
                                 <div class="form-group col-md-12 col-lg-12 col-xs-12">
                                     <label>(KG/CM<sup>2</sup>)<span class="text-danger">*</span></label>
-                                    <input type="text" name="intLongitude"
-                                        class="form-control @error('intLongitude') is-invalid @enderror"
-                                        placeholder="Introduce longitud"
-                                        value="{{ old('intLongitude') ?? $obj->intLongitude }}" />
-                                    @error('intLongitude')
+                                    <input type="text" name="indicator2"
+                                        class="form-control @error('indicator2') is-invalid @enderror"
+                                        placeholder="Introduce indicador"
+                                        value="{{ old('indicator2') ?? ($obj->well->indicator2 ?? '') }}" />
+                                    @error('indicator2')
                                         <div class="fv-plugins-message-container">
                                             <div data-field="username" data-validator="notEmpty" class="fv-help-block">
                                                 <strong>{{ $message }}</strong>
@@ -47,11 +53,11 @@
                                 </div>
                                 <div class="form-group col-md-12 col-lg-12 col-xs-12">
                                     <label>Fe<span class="text-danger">*</span></label>
-                                    <input type="text" name="intLongitude"
-                                        class="form-control @error('intLongitude') is-invalid @enderror"
-                                        placeholder="Introduce longitud"
-                                        value="{{ old('intLongitude') ?? $obj->intLongitude }}" />
-                                    @error('intLongitude')
+                                    <input type="text" name="indicator3"
+                                        class="form-control @error('indicator3') is-invalid @enderror"
+                                        placeholder="Introduce indicador"
+                                        value="{{ old('indicator3') ?? ($obj->well->indicator3 ?? '') }}" />
+                                    @error('indicator3')
                                         <div class="fv-plugins-message-container">
                                             <div data-field="username" data-validator="notEmpty" class="fv-help-block">
                                                 <strong>{{ $message }}</strong>
@@ -61,11 +67,11 @@
                                 </div>
                                 <div class="form-group col-md-12 col-lg-12 col-xs-12">
                                     <label>us/cm<span class="text-danger">*</span></label>
-                                    <input type="text" name="intLongitude"
-                                        class="form-control @error('intLongitude') is-invalid @enderror"
-                                        placeholder="Introduce longitud"
-                                        value="{{ old('intLongitude') ?? $obj->intLongitude }}" />
-                                    @error('intLongitude')
+                                    <input type="text" name="indicator4"
+                                        class="form-control @error('indicator4') is-invalid @enderror"
+                                        placeholder="Introduce indicador"
+                                        value="{{ old('indicator4') ?? ($obj->well->indicator4 ?? '') }}" />
+                                    @error('indicator4')
                                         <div class="fv-plugins-message-container">
                                             <div data-field="username" data-validator="notEmpty" class="fv-help-block">
                                                 <strong>{{ $message }}</strong>
@@ -191,3 +197,4 @@
             </div>
         </div>
     </div>
+    @include('Plant.Catalogs.mdlHistoryWellPump')

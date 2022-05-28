@@ -102,6 +102,69 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <h3>Incidencias</h3>
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#mdlHistoryIncidences">Historial de incidencias</button>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Capacidad<span class="text-danger">*</span></label>
+                                            <input type="text" name="capacidad"
+                                                class="form-control @error('capacidad') is-invalid @enderror"
+                                                placeholder="Introduce capacidad"
+                                                value="" />
+                                            @error('capacidad')
+                                                <div class="fv-plugins-message-container">
+                                                    <div data-field="username" data-validator="notEmpty" class="fv-help-block">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Presión de Descarga<span class="text-danger">*</span></label>
+                                            <input type="text" name="presion"
+                                                class="form-control @error('presion') is-invalid @enderror"
+                                                placeholder="Introduce presión de descarga"
+                                                value="" />
+                                            @error('presion')
+                                                <div class="fv-plugins-message-container">
+                                                    <div data-field="username" data-validator="notEmpty" class="fv-help-block">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Problemas de Calidad<span class="text-danger">*</span></label>
+                                            <input type="text" name="problemasCalidad"
+                                                class="form-control @error('problemasCalidad') is-invalid @enderror"
+                                                placeholder="Introduce problemas de calidad"
+                                                value="" />
+                                            @error('problemasCalidad')
+                                                <div class="fv-plugins-message-container">
+                                                    <div data-field="username" data-validator="notEmpty" class="fv-help-block">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label>Procesos de potabilización<span class="text-danger">*</span></label>
+                                            <input type="text" name="potabilizacion"
+                                                class="form-control @error('potabilizacion') is-invalid @enderror"
+                                                placeholder="Introduce procesos de potabilización"
+                                                value="" />
+                                            @error('potabilizacion')
+                                                <div class="fv-plugins-message-container">
+                                                    <div data-field="username" data-validator="notEmpty" class="fv-help-block">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel"
                                     aria-labelledby="tabs-icons-text-2-tab">
@@ -230,6 +293,7 @@
             </div>
         </form>
     </div>
+    @include('Plant.Catalogs.mdlHistoryIncidences')
 @endsection
 {{-- Styles Section --}}
 @section('styles')

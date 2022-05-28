@@ -5,6 +5,8 @@ namespace App\Models\Plant\Catalogs;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CatPlant extends Model
 {
@@ -31,5 +33,10 @@ class CatPlant extends Model
     public function getUrl()
     {
         return $this->dblCatPlant ? 'edit' : 'create';
+    }
+
+    public function well(): BelongsTo
+    {
+        return $this->belongsTo(WellPump::class,'dblCatPlant','dblCatPlant');
     }
 }
