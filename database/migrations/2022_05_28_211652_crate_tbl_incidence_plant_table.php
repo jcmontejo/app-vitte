@@ -25,7 +25,7 @@ class CrateTblIncidencePlantTable extends Migration
             $table->dateTime('datIncidende')->nullable();
             $table->softDeletes();
             $table->bigInteger('dblCatPlant')->nullable();
-            $table->foreign('dblCatPlant')->references('dblCatPlant')->on('tblCatPlant');
+            // $table->foreign('dblCatPlant')->references('dblCatPlant')->on('tblCatPlant');
             // $table->timestamps();
         });
     }

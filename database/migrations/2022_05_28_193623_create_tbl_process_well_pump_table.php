@@ -25,7 +25,7 @@ class CreateTblProcessWellPumpTable extends Migration
             $table->dateTime('datSampling')->nullable();
             $table->softDeletes();
             $table->bigInteger('dblCatPlant')->nullable();
-            $table->foreign('dblCatPlant')->references('dblCatPlant')->on('tblCatPlant');
+            // $table->foreign('dblCatPlant')->references('dblCatPlant')->on('tblCatPlant');
             // $table->timestamps();
         });
     }
