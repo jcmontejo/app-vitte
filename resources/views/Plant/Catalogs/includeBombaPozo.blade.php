@@ -95,14 +95,7 @@
             <div id="dos" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Quisque sapien augue, ornare id leo a, tristique elementum justo. Praesent non nulla sagittis,
-                    sollicitudin justo id, varius erat. Nunc sed pharetra nisl. Cras et suscipit felis, in lacinia
-                    sapien.
-                    Integer venenatis sagittis massa, eu eleifend nibh venenatis in. Pellentesque a aliquet urna.
-                    Curabitur
-                    tortor metus, ultrices sed mi at, sagittis imperdiet turpis. Suspendisse nec luctus nunc. Fusce in
-                    arcu
-                    quis lacus mollis ultrices.
+                    @include('Plant.Catalogs.includeOxidacion')
                 </div>
             </div>
         </div>
@@ -116,11 +109,7 @@
             <div id="tres" class="accordion-collapse collapse" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Praesent nec ipsum scelerisque dui condimentum pellentesque eu at lectus. Vivamus purus purus,
-                    bibendum
-                    in vestibulum ac, pharetra sit amet sapien. Nunc luctus, orci vel luctus cursus, nibh nisl
-                    ullamcorper
-                    ipsum, eu malesuada arcu augue id nisi. In auctor mi ac ante tincidunt tincidunt.
+                    @include('Plant.Catalogs.includeDecloracion')
                 </div>
             </div>
         </div>
@@ -134,11 +123,7 @@
             <div id="cuatro" class="accordion-collapse collapse" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Praesent nec ipsum scelerisque dui condimentum pellentesque eu at lectus. Vivamus purus purus,
-                    bibendum
-                    in vestibulum ac, pharetra sit amet sapien. Nunc luctus, orci vel luctus cursus, nibh nisl
-                    ullamcorper
-                    ipsum, eu malesuada arcu augue id nisi. In auctor mi ac ante tincidunt tincidunt.
+                    @include('Plant.Catalogs.includeFiltracion')
                 </div>
             </div>
         </div>
@@ -152,11 +137,7 @@
             <div id="cinco" class="accordion-collapse collapse" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Praesent nec ipsum scelerisque dui condimentum pellentesque eu at lectus. Vivamus purus purus,
-                    bibendum
-                    in vestibulum ac, pharetra sit amet sapien. Nunc luctus, orci vel luctus cursus, nibh nisl
-                    ullamcorper
-                    ipsum, eu malesuada arcu augue id nisi. In auctor mi ac ante tincidunt tincidunt.
+                    @include('Plant.Catalogs.includeOsmosis')
                 </div>
             </div>
         </div>
@@ -170,11 +151,7 @@
             <div id="seis" class="accordion-collapse collapse" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Praesent nec ipsum scelerisque dui condimentum pellentesque eu at lectus. Vivamus purus purus,
-                    bibendum
-                    in vestibulum ac, pharetra sit amet sapien. Nunc luctus, orci vel luctus cursus, nibh nisl
-                    ullamcorper
-                    ipsum, eu malesuada arcu augue id nisi. In auctor mi ac ante tincidunt tincidunt.
+                    @include('Plant.Catalogs.includeDesinfeccion')
                 </div>
             </div>
         </div>
@@ -188,11 +165,7 @@
             <div id="siete" class="accordion-collapse collapse" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Praesent nec ipsum scelerisque dui condimentum pellentesque eu at lectus. Vivamus purus purus,
-                    bibendum
-                    in vestibulum ac, pharetra sit amet sapien. Nunc luctus, orci vel luctus cursus, nibh nisl
-                    ullamcorper
-                    ipsum, eu malesuada arcu augue id nisi. In auctor mi ac ante tincidunt tincidunt.
+                    @include('Plant.Catalogs.includeCarcamo')
                 </div>
             </div>
         </div>

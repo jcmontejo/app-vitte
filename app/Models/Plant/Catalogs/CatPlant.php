@@ -39,4 +39,29 @@ class CatPlant extends Model
     {
         return $this->belongsTo(WellPump::class,'dblCatPlant','dblCatPlant');
     }
+
+    public function oxidacion(): BelongsTo
+    {
+        return $this->belongsTo(Oxidacion::class,'dblCatPlant','dblCatPlant');
+    }
+
+    public function decloracion(): BelongsTo
+    {
+        return $this->belongsTo(Decloracion::class,'dblCatPlant','dblCatPlant');
+    }
+
+    public function filtracion(): BelongsTo
+    {
+        return $this->belongsTo(Filtracion::class,'dblCatPlant','dblCatPlant');
+    }
+
+    public function osmosis(): BelongsTo
+    {
+        return $this->belongsTo(Osmosis::class,'dblCatPlant','dblCatPlant');
+    }
+
+    public function desinfeccion(): BelongsTo
+    {
+        return $this->belongsTo(Desinfeccion::class,'dblCatPlant','dblCatPlant');
+    }
 }
