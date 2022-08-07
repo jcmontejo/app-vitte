@@ -67,8 +67,8 @@ class AuthController extends Controller
                     'strFullName' => $userLogued->name. ' '. $userLogued->strLastName,
                     'strImgProfile' => $imgProfile,
                     'strEmail' => $userLogued->email,
-                    'strTokenApp' => '',
-                    'strDeviceApp' => 'ANDROID',
+                    'strTokenApp' => '9422cc4119146925cab7e4f8db11f49ce1609cf24d96b36a76c90f952b3a1dba',
+                    'strDeviceApp' => 'android',
                     'bitActive' => 1,
                 ],
                 'companies' => $companies
