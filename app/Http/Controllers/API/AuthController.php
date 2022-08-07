@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use \Laravel\Passport\Token;
+use \Lcobucci\JWT\Configuration; /* composer require lcobucci/jwt */
 
 class AuthController extends Controller
 {
@@ -78,6 +80,35 @@ class AuthController extends Controller
                 'error' => $error,
             ]);
         }
+    }
+
+    public function checkTokenExpired(Request $request)
+    {
+        $tokenId = Configuration::forUnsecuredSigner()->parser()->parse($request->access_token)->claims()->get('jti');
+        $token = Token::find($tokenId);
+        if (Carbon::parse($token->expires_at)->toDateTimeString() > Carbon::now()->toDateTimeString()) {
+            $token->expires_at = Carbon::now()->addDays(1);
+            $token->save();
+            $userLogued = User::find($token["user_id"]);
+            $imgProfile = '';
+            return response()->json([
+                'status_code' => 200,
+                'message' => "Authenticated",
+                'access_token' => $request->access_token,
+                'user' => [
+                    'dblUser' => $userLogued->id,
+                    'strUser' => $userLogued->email,
+                    'strFullName' => $userLogued->name. ' '. $userLogued->strLastName,
+                    'strImgProfile' => $imgProfile,
+                    'strEmail' => $userLogued->email,
+                    'bitActive' => 1,
+                ],
+            ]);
+        }
+        return response()->json([
+            'status_code' => 401,
+            'message' => "Unauthenticated"
+        ]);
     }
 
     /**
