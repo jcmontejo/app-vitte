@@ -35,8 +35,10 @@ class PlantController extends Controller
     {
         $page_title = 'Crear Planta';
         $message = $request->session()->get('message');
+        $trasheds = [];
+        $incidences = [];
         $obj = new CatPlant();
-        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj'));
+        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'trasheds', 'incidences'));
     }
 
     public function store(Request $request)
