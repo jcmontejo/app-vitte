@@ -128,7 +128,7 @@ class ApiController extends Controller
         $planta = CatPlant::find($request->dblCatPlant);
         //Process incidence
         // $oldIncidences = Incidence::where('dblCatPlant', $obj->dblCatPlant)->delete();
-        if ($request->capacidad != "" or $request->presion != "" or $request->problemasCalidad != "" or $obj->dblCatPlant != "") {
+        if ($request->capacidad != "" or $request->presion != "" or $request->problemasCalidad != "" or $planta->dblCatPlant != "") {
             $well = new Incidence();
             $well->indicator1 = $request->capacidad;
             $well->indicator2 = $request->presion;
