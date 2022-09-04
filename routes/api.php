@@ -36,5 +36,6 @@ Route::group([
         ['middleware' => ['auth:api', 'cors']],
     ], function () {
         Route::get('plantas', [ApiController::class, 'getPlantas']);
+        Route::get('plantas/{dblCatPlant}', [ApiController::class, 'getPlanta']);
     });
 });
