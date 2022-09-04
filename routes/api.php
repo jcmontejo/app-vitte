@@ -37,5 +37,12 @@ Route::group([
     ], function () {
         Route::get('plantas', [ApiController::class, 'getPlantas']);
         Route::get('plantas/{dblCatPlant}', [ApiController::class, 'getPlanta']);
+        Route::post('plantas/guardar/bombapozo', [ApiController::class, 'storeBombaPozo']);
+        Route::post('plantas/guardar/oxidacion', [ApiController::class, 'storeOxidacionCloro']);
+        Route::post('plantas/guardar/decloracion', [ApiController::class, 'storeDecloracion']);
+        Route::post('plantas/guardar/filtracion', [ApiController::class, 'storeFiltracion']);
+        Route::post('plantas/guardar/osmosis', [ApiController::class, 'storeOsmosis']);
+        Route::post('plantas/guardar/decinfeccion', [ApiController::class, 'storeDesinfeccion']);
+        Route::post('plantas/guardar/incidencia', [ApiController::class, 'storeIncidencia']);
     });
 });
