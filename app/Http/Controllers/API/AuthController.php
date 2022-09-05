@@ -65,14 +65,9 @@ class AuthController extends Controller
                     'dblUser' => $userLogued->id,
                     'strUser' => $userLogued->email,
                     'strFullName' => $userLogued->name. ' '. $userLogued->strLastName,
-                    'strImgProfile' => $imgProfile,
                     'strEmail' => $userLogued->email,
                     'intTypeUser' => $userLogued->dblCatTypeUser,
-                    'strTokenApp' => '9422cc4119146925cab7e4f8db11f49ce1609cf24d96b36a76c90f952b3a1dba',
-                    'strDeviceApp' => 'android',
-                    'bitActive' => 1,
                 ],
-                'companies' => $companies
             ]);
         } catch (Exception $error) {
             return response()->json([
