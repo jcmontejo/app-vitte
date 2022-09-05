@@ -24,13 +24,13 @@ class CorsMd
     public function handle(Request $request, Closure $next)
     {
 
-        if($request->path() != 'api/auth/user' && $request->path() != 'api/auth/login'){
-            $token =  $this->getBearerToken();
-            $result = $this->checkTokenExpired($token);
-            if($result[1] != 200){
-                return $result[0];
-            }
-        }
+        // if($request->path() != 'api/auth/user' && $request->path() != 'api/auth/login'){
+        //     $token =  $this->getBearerToken();
+        //     $result = $this->checkTokenExpired($token);
+        //     if($result[1] != 200){
+        //         return $result[0];
+        //     }
+        // }
 
         return $next($request)
         //Url a la que se le dará acceso en las peticiones
