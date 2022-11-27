@@ -41,12 +41,11 @@ class ApiController extends Controller
     {
         $planta = CatPlant::find($request->dblCatPlant);
         // Process bomba de pozo
-        // $oldWells = WellPump::where('dblCatPlant', $planta->dblCatPlant)->delete();
         $well = new WellPump();
         $well->indicator1 = $request->indicator1;
         $well->indicator2 = $request->indicator2;
         $well->indicator3 = $request->indicator3;
-        // $well->indicator4 = $request->indicator4;
+        $well->intUser = $request->intUser;
         $well->dblCatPlant = $planta->dblCatPlant;
         $well->save();
 
@@ -57,11 +56,10 @@ class ApiController extends Controller
     {
         $planta = CatPlant::find($request->dblCatPlant);
         //Process Oxidacion
-        // $oldOxidacion = Oxidacion::where('dblCatPlant', $planta->dblCatPlant)->delete();
         $oxidacion = new Oxidacion();
         $oxidacion->indicator1 = $request->indicatorOxidacion1;
         $oxidacion->indicator2 = $request->indicatorOxidacion2;
-        // $oxidacion->indicator3 = $request->indicatorOxidacion3;
+        $oxidacion->intUser = $request->intUser;
         $oxidacion->dblCatPlant = $planta->dblCatPlant;
         $oxidacion->save();
 
@@ -87,14 +85,18 @@ class ApiController extends Controller
     {
         $planta = CatPlant::find($request->dblCatPlant);
         //Process Filtracion
-        $oldFiltracion = Filtracion::where('dblCatPlant', $planta->dblCatPlant)->delete();
-        $filtracion = new Filtracion();
-        $filtracion->indicator1 = $request->indicatorFiltracion1;
-        $filtracion->indicator2 = $request->indicatorFiltracion2;
-        $filtracion->indicator3 = $request->indicatorFiltracion3;
-        $filtracion->indicator4 = $request->indicatorFiltracion4;
-        $filtracion->dblCatPlant = $planta->dblCatPlant;
-        $filtracion->save();
+        $arrFiltros = $request->intFiltro ?? [];
+        $arrP1 = $request->indicatorFiltracion1 ?? [];
+        $arrP2 = $request->indicatorFiltracion2 ?? [];
+        foreach ($arrFiltros as $key => $value) {
+            $filtracion = new Filtracion();
+            $filtracion->indicator1 = $arrP1[$key];
+            $filtracion->indicator2 = $arrP2[$key];
+            $filtracion->intFiltro = $arrFiltros[$key];
+            $filtracion->intUser = $request->intUser;
+            $filtracion->dblCatPlant = $planta->dblCatPlant;
+            $filtracion->save();
+        }
 
         return response()->json(['message' => 'success', 'planta' => $planta], 200);
     }
@@ -118,15 +120,16 @@ class ApiController extends Controller
     {
         $planta = CatPlant::find($request->dblCatPlant);
         //Process Desinfeccion
-        $oldDesinfeccion = Desinfeccion::where('dblCatPlant', $planta->dblCatPlant)->delete();
+        // $oldDesinfeccion = Desinfeccion::where('dblCatPlant', $planta->dblCatPlant)->delete();
         $desinfeccion = new Desinfeccion();
         $desinfeccion->indicator1 = $request->indicatorDesinfeccion1;
         $desinfeccion->indicator2 = $request->indicatorDesinfeccion2;
-        $desinfeccion->indicator3 = $request->indicatorDesinfeccion3;
-        $desinfeccion->indicator4 = $request->indicatorDesinfeccion4;
-        $desinfeccion->indicator5 = $request->indicatorDesinfeccion5;
-        $desinfeccion->indicator6 = $request->indicatorDesinfeccion6;
-        $desinfeccion->indicator7 = $request->indicatorDesinfeccion7;
+        $desinfeccion->intUser = $request->intUser;
+        // $desinfeccion->indicator3 = $request->indicatorDesinfeccion3;
+        // $desinfeccion->indicator4 = $request->indicatorDesinfeccion4;
+        // $desinfeccion->indicator5 = $request->indicatorDesinfeccion5;
+        // $desinfeccion->indicator6 = $request->indicatorDesinfeccion6;
+        // $desinfeccion->indicator7 = $request->indicatorDesinfeccion7;
         $desinfeccion->dblCatPlant = $planta->dblCatPlant;
         $desinfeccion->save();
 

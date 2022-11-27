@@ -10,7 +10,7 @@
                 </div>
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#mdlHistoryOxidacion">Historial Indicadores</button>
+                        data-bs-target="#mdlHistoryDesinfeccion">Historial Indicadores</button>
                 </div>
                 <div class="form-group col-md-12 col-lg-12 col-xs-12">
                     <label>% Carrera<span class="text-danger">*</span></label>
@@ -40,7 +40,7 @@
                         </div>
                     @enderror
                 </div>
-                <div class="form-group col-md-12 col-lg-12 col-xs-12">
+                {{-- <div class="form-group col-md-12 col-lg-12 col-xs-12">
                     <label>Fe<span class="text-danger">*</span></label>
                     <input type="text" name="indicatorDesinfeccion3"
                         class="form-control @error('indicatorDesinfeccion3') is-invalid @enderror"
@@ -67,8 +67,8 @@
                             </div>
                         </div>
                     @enderror
-                </div>
-                <div class="form-group col-md-12 col-lg-12 col-xs-12">
+                </div> --}}
+                {{-- <div class="form-group col-md-12 col-lg-12 col-xs-12">
                     <label>us/cm<span class="text-danger">*</span></label>
                     <input type="text" name="indicatorDesinfeccion5"
                         class="form-control @error('indicatorDesinfeccion5') is-invalid @enderror"
@@ -109,8 +109,9 @@
                             </div>
                         </div>
                     @enderror
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
 </div>
+@include('Plant.Catalogs.mdlHistoryDesinfeccion')

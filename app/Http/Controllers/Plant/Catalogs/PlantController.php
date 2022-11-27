@@ -93,9 +93,46 @@ class PlantController extends Controller
             $obj->alerta = $alerta;
             return $obj;
             });
-            // dd($historialOxidacion);
+
+            $historialDesinfeccion = Desinfeccion::leftJoin('users as t2','t2.id','tblProcessDesinfeccion.intUser')
+            ->join('tblCatPlant as t3','t3.dblCatPlant','tblProcessDesinfeccion.dblCatPlant')
+            ->leftJoin('catModeloBomba as t4','t4.id','t3.intModeloBomba')
+            ->where('tblProcessDesinfeccion.dblCatPlant', $obj->dblCatPlant)
+            ->get()
+            ->map(function($obj){
+                $alerta = '';
+                $dblCapacidadNominal = $obj->dblCapacidadNominal ?? 0;
+                $flujoReal = (($obj->indicator1/100)*($obj->indicator2/100))*$dblCapacidadNominal;
+                $fb = $flujoReal/1.5;
+                $fa = $flujoReal*1.5;
+                if ($flujoReal<$fb) {
+                    $alerta = 'Flujo bajo, aumente velocidad del golpe y/o longitud del golpe.';
+                }elseif ($flujoReal>$fa) {
+                    $alerta = 'Flujo alto, reduzaca velocidad del golpe y/o longitud del golpe.';
+                }else{
+                    $alerta = 'Flujo adecuado';
+                }
+            // calculo cloro residual
+            $alertaCloro = '';
+            $dblFactorCloroResidual = $obj->dblFactorCloroResidual ?? 0;
+            $cloroResidual = $flujoReal * $dblFactorCloroResidual;
+            if ($cloroResidual <= 0.2) {
+                $alertaCloro = 'Cloro residual bajo, aumente velocidad de carrera y/o pulsos';
+            }elseif ($cloroResidual>= 1.5) {
+                $alertaCloro = 'Cloro residual alto, reduzca velocidad de carrera y/o pulsos';
+            }else{
+                $alertaCloro = 'CLORO RESIDUAL ADECUADO';
+            }
+            $obj->capacidadNom = $dblCapacidadNominal;
+            $obj->flujoDosificado = number_format($flujoReal,2);
+            $obj->alerta = $alerta;
+            $obj->cloroResidual = number_format($cloroResidual);
+            $obj->alertaCloro = $alertaCloro;
+            return $obj;
+            });
+            // dd($historialDesinfeccion);
         $incidences = Incidence::where('dblCatPlant', $obj->dblCatPlant)->get();
-        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'objFiltros', 'objBombas', 'historialBombaDePozo', 'historialOxidacion', 'incidences'));
+        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'objFiltros', 'objBombas', 'historialBombaDePozo', 'historialOxidacion', 'historialDesinfeccion', 'incidences'));
     }
 
     public function update(Request $request)
@@ -110,6 +147,7 @@ class PlantController extends Controller
             $obj->strAddress = $request->strAddress;
             $obj->intLongitude = $request->intLongitude;
             $obj->intLongitude = $request->intLongitude;
+            $obj->dblFactorCloroResidual = $request->dblFactorCloroResidual;
             $obj->dblFlujoDisenioOxidante = $request->dblFlujoDisenioOxidante;
             $obj->intModeloBomba = $request->intModeloBomba;
             $obj->save();
@@ -175,15 +213,16 @@ class PlantController extends Controller
             $osmosis->save();
 
             //Process Desinfeccion
-            $oldDesinfeccion = Desinfeccion::where('dblCatPlant', $obj->dblCatPlant)->delete();
+            // $oldDesinfeccion = Desinfeccion::where('dblCatPlant', $obj->dblCatPlant)->delete();
             $desinfeccion = new Desinfeccion();
             $desinfeccion->indicator1 = $request->indicatorDesinfeccion1;
             $desinfeccion->indicator2 = $request->indicatorDesinfeccion2;
-            $desinfeccion->indicator3 = $request->indicatorDesinfeccion3;
-            $desinfeccion->indicator4 = $request->indicatorDesinfeccion4;
-            $desinfeccion->indicator5 = $request->indicatorDesinfeccion5;
-            $desinfeccion->indicator6 = $request->indicatorDesinfeccion6;
-            $desinfeccion->indicator7 = $request->indicatorDesinfeccion7;
+            $desinfeccion->intUser = Auth::user()->id;
+            // $desinfeccion->indicator3 = $request->indicatorDesinfeccion3;
+            // $desinfeccion->indicator4 = $request->indicatorDesinfeccion4;
+            // $desinfeccion->indicator5 = $request->indicatorDesinfeccion5;
+            // $desinfeccion->indicator6 = $request->indicatorDesinfeccion6;
+            // $desinfeccion->indicator7 = $request->indicatorDesinfeccion7;
             $desinfeccion->dblCatPlant = $obj->dblCatPlant;
             $desinfeccion->save();
 
