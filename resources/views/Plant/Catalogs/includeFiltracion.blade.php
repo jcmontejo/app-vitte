@@ -1,8 +1,39 @@
 <div class="container my-5">
     <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table id="tblFiltros" class="table table-bordered table-hover"
+                    style="margin-top: 5px !important; width: 100% !important">
+                    <thead>
+                        <tr>
+                            <th>Nombre de filtro</th>
+                            <th class="text-center thColor"><button type="button"
+                                    class="btn btn-primary btn-sm btn-add-filtro"><i
+                                        class="fas fa-plus-circle"></i></button>
+                                <div class="sizer"></div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($objFiltros as $filtro)
+                            <tr>
+                                <td><input type="hidden" name="intFiltro[]" value="{{ $filtro->id }}"><input value="{{ $filtro->strNombre }}" id="strNombreFiltro" type="text" name="strNombreFiltro[]" class="form-control strNombreFiltro"
+                                    placeholder="Introduce nombre del filtro"></td>
+                                <td>
+                                    <button type="button" class="btn btn-icon btn-danger btn-xs mr-1 btn-delete-filtro"><i class="fa fa-trash icon-nm" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-6">
             <img class="w-100 shadow" src="{{ asset('images/process/filtracion.png') }}" />
         </div>
+
         <div class="col-lg-6">
             <div class="p-5 mt-4">
                 <div class="col-sm-8">

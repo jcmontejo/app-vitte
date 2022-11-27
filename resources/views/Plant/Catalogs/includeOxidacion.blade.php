@@ -16,8 +16,7 @@
                     <label>% Carrera<span class="text-danger">*</span></label>
                     <input type="text" name="indicatorOxidacion1"
                         class="form-control @error('indicatorOxidacion1') is-invalid @enderror"
-                        placeholder="Introduce indicador"
-                        value="{{ old('indicatorOxidacion1') ?? ($obj->oxidacion->indicator1 ?? '') }}" />
+                        placeholder="Introduce indicador"/>
                     @error('indicatorOxidacion1')
                         <div class="fv-plugins-message-container">
                             <div data-field="username" data-validator="notEmpty" class="fv-help-block">
@@ -30,8 +29,7 @@
                     <label>% Pulsos<span class="text-danger">*</span></label>
                     <input type="text" name="indicatorOxidacion2"
                         class="form-control @error('indicatorOxidacion2') is-invalid @enderror"
-                        placeholder="Introduce indicador"
-                        value="{{ old('indicatorOxidacion2') ?? ($obj->oxidacion->indicator2 ?? '') }}" />
+                        placeholder="Introduce indicador"/>
                     @error('indicatorOxidacion2')
                         <div class="fv-plugins-message-container">
                             <div data-field="username" data-validator="notEmpty" class="fv-help-block">
@@ -40,7 +38,7 @@
                         </div>
                     @enderror
                 </div>
-                <div class="form-group col-md-12 col-lg-12 col-xs-12">
+                {{-- <div class="form-group col-md-12 col-lg-12 col-xs-12">
                     <label>Lpd Q<span class="text-danger">*</span></label>
                     <input type="text" name="indicatorOxidacion3"
                         class="form-control @error('indicatorOxidacion3') is-invalid @enderror"
@@ -53,8 +51,9 @@
                             </div>
                         </div>
                     @enderror
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
 </div>
+@include('Plant.Catalogs.mdlHistoryOxidacion')

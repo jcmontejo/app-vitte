@@ -24,11 +24,10 @@
                                         data-bs-target="#mdlHistoryWellPump">Historial Indicadores</button>
                                 </div>
                                 <div class="form-group col-md-12 col-lg-12 col-xs-12">
-                                    <label>LPS<span class="text-danger">*</span></label>
+                                    <label>Flujo del pozo (LPS)<span class="text-danger">*</span></label>
                                     <input type="text" name="indicator1"
                                         class="form-control @error('indicator1') is-invalid @enderror"
-                                        placeholder="Introduce indicador"
-                                        value="{{ old('indicator1') ?? ($obj->well->indicator1 ?? '') }}" />
+                                        placeholder="Introduce indicador"/>
                                     @error('indicator1')
                                         <div class="fv-plugins-message-container">
                                             <div data-field="username" data-validator="notEmpty" class="fv-help-block">
@@ -38,12 +37,11 @@
                                     @enderror
                                 </div>
                                 <div class="form-group col-md-12 col-lg-12 col-xs-12">
-                                    <label>(KG/CM<sup>2</sup>)<span class="text-danger">*</span></label>
-                                    <input type="text" name="indicator2"
-                                        class="form-control @error('indicator2') is-invalid @enderror"
-                                        placeholder="Introduce indicador"
-                                        value="{{ old('indicator2') ?? ($obj->well->indicator2 ?? '') }}" />
-                                    @error('indicator2')
+                                    <label>Nivel dinámico en el pozo<span class="text-danger">*</span></label>
+                                    <input type="text" name="indicator3"
+                                        class="form-control @error('indicator3') is-invalid @enderror"
+                                        placeholder="Introduce indicador"/>
+                                    @error('indicator3')
                                         <div class="fv-plugins-message-container">
                                             <div data-field="username" data-validator="notEmpty" class="fv-help-block">
                                                 <strong>{{ $message }}</strong>
@@ -52,6 +50,19 @@
                                     @enderror
                                 </div>
                                 <div class="form-group col-md-12 col-lg-12 col-xs-12">
+                                    <label>Presión de la línea del pozo (KG/CM<sup>2</sup>)<span class="text-danger">*</span></label>
+                                    <input type="text" name="indicator2"
+                                        class="form-control @error('indicator2') is-invalid @enderror"
+                                        placeholder="Introduce indicador"/>
+                                    @error('indicator2')
+                                        <div class="fv-plugins-message-container">
+                                            <div data-field="username" data-validator="notEmpty" class="fv-help-block">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
+                                        </div>
+                                    @enderror
+                                </div>
+                                {{-- <div class="form-group col-md-12 col-lg-12 col-xs-12">
                                     <label>Fe<span class="text-danger">*</span></label>
                                     <input type="text" name="indicator3"
                                         class="form-control @error('indicator3') is-invalid @enderror"
@@ -64,8 +75,8 @@
                                             </div>
                                         </div>
                                     @enderror
-                                </div>
-                                <div class="form-group col-md-12 col-lg-12 col-xs-12">
+                                </div> --}}
+                                {{-- <div class="form-group col-md-12 col-lg-12 col-xs-12">
                                     <label>us/cm<span class="text-danger">*</span></label>
                                     <input type="text" name="indicator4"
                                         class="form-control @error('indicator4') is-invalid @enderror"
@@ -78,7 +89,7 @@
                                             </div>
                                         </div>
                                     @enderror
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

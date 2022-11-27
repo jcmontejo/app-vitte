@@ -36,7 +36,7 @@ Route::group([
         ['middleware' => ['auth:api', 'cors']],
     ], function () {
         Route::get('plantas', [ApiController::class, 'getPlantas']);
-        Route::get('plantas/{dblCatPlant}', [ApiController::class, 'getPlanta']);
+        Route::post('plantas/', [ApiController::class, 'getPlanta']);
         Route::post('plantas/guardar/bombapozo', [ApiController::class, 'storeBombaPozo']);
         Route::post('plantas/guardar/oxidacion', [ApiController::class, 'storeOxidacionCloro']);
         Route::post('plantas/guardar/decloracion', [ApiController::class, 'storeDecloracion']);

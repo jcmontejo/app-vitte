@@ -484,6 +484,7 @@
     </script>
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.2/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('scripts')
 </body>
 

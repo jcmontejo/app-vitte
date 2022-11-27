@@ -73,7 +73,7 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label>Latitud<span class="text-danger">*</span></label>
                                             <input type="text" name="intLongitude"
                                                 class="form-control @error('intLongitude') is-invalid @enderror"
@@ -87,7 +87,7 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label>Longitud<span class="text-danger">*</span></label>
                                             <input type="text" name="intLongitude"
                                                 class="form-control @error('intLongitude') is-invalid @enderror"
@@ -100,6 +100,45 @@
                                                     </div>
                                                 </div>
                                             @enderror
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label>Factor de cloro residual<span class="text-danger">*</span></label>
+                                            <input type="text" name="dblFactorCloroResidual"
+                                                class="form-control @error('dblFactorCloroResidual') is-invalid @enderror"
+                                                placeholder="Introduce factor de cloro residual"
+                                                value="{{ old('dblFactorCloroResidual') ?? $obj->dblFactorCloroResidual }}" />
+                                            @error('dblFactorCloroResidual')
+                                                <div class="fv-plugins-message-container">
+                                                    <div data-field="username" data-validator="notEmpty" class="fv-help-block">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label>Flujo de diseño de oxidante<span class="text-danger">*</span></label>
+                                            <input type="text" name="dblFlujoDisenioOxidante"
+                                                class="form-control @error('dblFlujoDisenioOxidante') is-invalid @enderror"
+                                                placeholder="Introduce flujo de diseño de oxidante"
+                                                value="{{ old('dblFlujoDisenioOxidante') ?? $obj->dblFlujoDisenioOxidante }}" />
+                                            @error('dblFlujoDisenioOxidante')
+                                                <div class="fv-plugins-message-container">
+                                                    <div data-field="username" data-validator="notEmpty" class="fv-help-block">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label>Modelo de bomba<span class="text-danger">*</span></label>
+                                            <select class="select2 form-control" name="intModeloBomba" id="intModeloBomba">
+                                                <option value="">Selecciona opción</option>
+                                                @foreach ($objBombas as $row)
+                                                    <option {{ $obj->intModeloBomba == $row->id ? 'selected' : '' }}
+                                                        value="{{ $row->id }}">{{ $row->strNombre }} -
+                                                        {{ $row->dblCapacidadNominal }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -315,6 +354,67 @@
     <script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js_system/plants.js') }}"></script>
     <script>
-        $(document).ready(function() {})
+        let _tableFiltros = [];
+        $(document).ready(function() {
+            initDatatables();
+            $(this).on('click','.btn-add-filtro',addFiltro);
+            $(this).on('click', '.btn-delete-filtro', deleteFiltro);
+        })
+
+        function initDatatables(){
+            _tableFiltros = $("#tblFiltros").DataTable({
+                "dom": '<"row"<"text-left col-4"f><"text-right col-8">>lt<"bottom"i><"clear">',
+                "language": {
+                    search: '<i class="fa fa-filter" aria-hidden="true"></i>',
+                    searchPlaceholder: `Buscar`,
+                },
+                scrollY: '60vh',
+                scrollX: '1140px',
+                "bPaginate": false,
+            });
+        }
+
+        function addFiltro(){
+            let intContador = _tableFiltros.rows().count();
+            let intId = parseInt(intContador) + 1;
+            let rowNode = _tableFiltros
+                .row.add(
+                    [
+                        getNombre(),
+                        getDeleteButton(),
+                    ]
+                )
+                .draw()
+                .node();
+        }
+
+        function getNombre(){
+            let str = `<input type="hidden" name="intFiltro[]"><input id="strNombreFiltro" type="text" name="strNombreFiltro[]" class="form-control strNombreFiltro"
+        placeholder="Introduce nombre del filtro">`;
+            return str;
+        }
+
+        function getDeleteButton() {
+            let str =
+                `<button type="button" class="btn btn-icon btn-danger btn-xs mr-1 btn-delete-filtro"><i class="fa fa-trash icon-nm" aria-hidden="true"></i></button>`;
+            return str;
+        }
+
+        function deleteFiltro(){
+            let tr = $(this).closest('tr');
+            Swal.fire({
+                title: `¿Esta seguro?`,
+                text: `No se podrá revertir!`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: `Sí, eliminar!`,
+                cancelButtonText: `No, cancelar!`,
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    _tableFiltros.row(tr).remove().draw();
+                }
+            });
+        }
     </script>
 @endsection

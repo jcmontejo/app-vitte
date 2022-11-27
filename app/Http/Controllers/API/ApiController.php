@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Asistencia;
+use App\Models\Filtro;
 use App\Models\Plant\Catalogs\CatPlant;
 use App\Models\Plant\Catalogs\Decloracion;
 use App\Models\Plant\Catalogs\Desinfeccion;
@@ -21,22 +23,30 @@ class ApiController extends Controller
         return response()->json($plantas);
     }
 
-    public function getPlanta($dblCatPlant)
+    public function getPlanta(Request $request)
     {
-        $planta = CatPlant::find($dblCatPlant);
-        return response()->json($planta, 200);
+        $planta = CatPlant::find($request->dblCatPlant);
+        $filtros = Filtro::where('dblCatPlant',$request->dblCatPlant)->get();
+        $asistencia = new Asistencia();
+        $asistencia->intUser = $request->intUser;
+        $asistencia->dblCatPlant = $request->dblCatPlant;
+        $asistencia->save();
+        return response()->json([
+            'planta' => $planta,
+            'filtros' => $filtros
+        ],200);
     }
 
     public function storeBombaPozo(Request $request)
     {
         $planta = CatPlant::find($request->dblCatPlant);
         // Process bomba de pozo
-        $oldWells = WellPump::where('dblCatPlant', $planta->dblCatPlant)->delete();
+        // $oldWells = WellPump::where('dblCatPlant', $planta->dblCatPlant)->delete();
         $well = new WellPump();
         $well->indicator1 = $request->indicator1;
         $well->indicator2 = $request->indicator2;
         $well->indicator3 = $request->indicator3;
-        $well->indicator4 = $request->indicator4;
+        // $well->indicator4 = $request->indicator4;
         $well->dblCatPlant = $planta->dblCatPlant;
         $well->save();
 
@@ -47,11 +57,11 @@ class ApiController extends Controller
     {
         $planta = CatPlant::find($request->dblCatPlant);
         //Process Oxidacion
-        $oldOxidacion = Oxidacion::where('dblCatPlant', $planta->dblCatPlant)->delete();
+        // $oldOxidacion = Oxidacion::where('dblCatPlant', $planta->dblCatPlant)->delete();
         $oxidacion = new Oxidacion();
         $oxidacion->indicator1 = $request->indicatorOxidacion1;
         $oxidacion->indicator2 = $request->indicatorOxidacion2;
-        $oxidacion->indicator3 = $request->indicatorOxidacion3;
+        // $oxidacion->indicator3 = $request->indicatorOxidacion3;
         $oxidacion->dblCatPlant = $planta->dblCatPlant;
         $oxidacion->save();
 

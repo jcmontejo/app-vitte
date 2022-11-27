@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Plant\Catalogs;
 
 use App\Http\Controllers\Controller;
+use App\Models\CatModeloBomba;
+use App\Models\Filtro;
 use App\Models\Plant\Catalogs\CatPlant;
 use App\Models\Plant\Catalogs\Decloracion;
 use App\Models\Plant\Catalogs\Desinfeccion;
@@ -12,6 +14,7 @@ use App\Models\Plant\Catalogs\Osmosis;
 use App\Models\Plant\Catalogs\Oxidacion;
 use App\Models\Plant\Catalogs\WellPump;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PlantController extends Controller
@@ -38,7 +41,8 @@ class PlantController extends Controller
         $trasheds = [];
         $incidences = [];
         $obj = new CatPlant();
-        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'trasheds', 'incidences'));
+        $objBombas = CatModeloBomba::all();
+        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'objBombas', 'trasheds', 'incidences'));
     }
 
     public function store(Request $request)
@@ -63,9 +67,35 @@ class PlantController extends Controller
         $page_title = 'Editar Planta';
         $method = $request->method();
         $obj = CatPlant::findOrFail($dblCatPlant);
-        $trasheds = WellPump::onlyTrashed()->where('dblCatPlant', $obj->dblCatPlant)->get();
+        $objFiltros = Filtro::where('dblCatPlant',$dblCatPlant)->get();
+        $objBombas = CatModeloBomba::all();
+        $historialBombaDePozo = WellPump::leftJoin('users as t2','t2.id','tblProcessWellPump.intUser')->where('tblProcessWellPump.dblCatPlant', $obj->dblCatPlant)->get();
+        $historialOxidacion = Oxidacion::leftJoin('users as t2','t2.id','tblProcessOxidacion.intUser')
+            ->join('tblCatPlant as t3','t3.dblCatPlant','tblProcessOxidacion.dblCatPlant')
+            ->leftJoin('catModeloBomba as t4','t4.id','t3.intModeloBomba')
+            ->where('tblProcessOxidacion.dblCatPlant', $obj->dblCatPlant)
+            ->get()
+            ->map(function($obj){
+                $alerta = '';
+                $dblCapacidadNominal = $obj->dblCapacidadNominal ?? 0;
+                $flujoReal = (($obj->indicator1/100)*($obj->indicator2/100))*$dblCapacidadNominal;
+                $fb = $flujoReal/1.5;
+                $fa = $flujoReal*1.5;
+                if ($flujoReal<$fb) {
+                    $alerta = 'Flujo bajo, aumente velocidad del golpe y/o longitud del golpe.';
+                }elseif ($flujoReal>$fa) {
+                    $alerta = 'Flujo alto, reduzaca velocidad del golpe y/o longitud del golpe.';
+                }else{
+                    $alerta = 'Flujo adecuado';
+                }
+            $obj->capacidadNom = $dblCapacidadNominal;
+            $obj->flujoDosificado = number_format($flujoReal,2);
+            $obj->alerta = $alerta;
+            return $obj;
+            });
+            // dd($historialOxidacion);
         $incidences = Incidence::where('dblCatPlant', $obj->dblCatPlant)->get();
-        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'trasheds', 'incidences'));
+        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'objFiltros', 'objBombas', 'historialBombaDePozo', 'historialOxidacion', 'incidences'));
     }
 
     public function update(Request $request)
@@ -80,24 +110,38 @@ class PlantController extends Controller
             $obj->strAddress = $request->strAddress;
             $obj->intLongitude = $request->intLongitude;
             $obj->intLongitude = $request->intLongitude;
+            $obj->dblFlujoDisenioOxidante = $request->dblFlujoDisenioOxidante;
+            $obj->intModeloBomba = $request->intModeloBomba;
             $obj->save();
 
+            $intFiltro = $request->intFiltro ?? [];
+            $strNombreFiltro = $request->strNombreFiltro ?? [];
+
+            foreach ($strNombreFiltro as $key => $value) {
+                $filtro = Filtro::findOrNew($intFiltro[$key]);
+                $filtro->strNombre = $strNombreFiltro[$key];
+                $filtro->dblCatPlant = $obj->dblCatPlant;
+                $filtro->save();
+            }
+
             //Process well pump
-            $oldWells = WellPump::where('dblCatPlant', $obj->dblCatPlant)->delete();
+            // $oldWells = WellPump::where('dblCatPlant', $obj->dblCatPlant)->delete();
             $well = new WellPump();
             $well->indicator1 = $request->indicator1;
             $well->indicator2 = $request->indicator2;
             $well->indicator3 = $request->indicator3;
-            $well->indicator4 = $request->indicator4;
+            $well->intUser = Auth::user()->id;
+            // $well->indicator4 = $request->indicator4;
             $well->dblCatPlant = $obj->dblCatPlant;
             $well->save();
 
             //Process Oxidacion
-            $oldOxidacion = Oxidacion::where('dblCatPlant', $obj->dblCatPlant)->delete();
+            // $oldOxidacion = Oxidacion::where('dblCatPlant', $obj->dblCatPlant)->delete();
             $oxidacion = new Oxidacion();
             $oxidacion->indicator1 = $request->indicatorOxidacion1;
             $oxidacion->indicator2 = $request->indicatorOxidacion2;
-            $oxidacion->indicator3 = $request->indicatorOxidacion3;
+            $oxidacion->intUser = Auth::user()->id;
+            // $oxidacion->indicator3 = $request->indicatorOxidacion3;
             $oxidacion->dblCatPlant = $obj->dblCatPlant;
             $oxidacion->save();
 
@@ -145,7 +189,7 @@ class PlantController extends Controller
 
             //Process incidence
             // $oldIncidences = Incidence::where('dblCatPlant', $obj->dblCatPlant)->delete();
-            if ($request->capacidad != "" OR $request->presion != "" OR $request->problemasCalidad != "" OR $obj->dblCatPlant != "") {
+            if ($request->capacidad != "" or $request->presion != "" or $request->problemasCalidad != "" or $obj->dblCatPlant != "") {
                 $well = new Incidence();
                 $well->indicator1 = $request->capacidad;
                 $well->indicator2 = $request->presion;

@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="mdlHistoryWellPump" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="mdlHistoryOxidacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,20 +13,26 @@
                             <th>Operador</th>
                             <th>Hora</th>
                             <th>Fecha</th>
-                            <th>Flujo de línea de bombeo (LPS)</th>
-                            <th>Nivel del pozo</th>
-                            <th>Presión línea de bombeo (KG/CM2)</th>
+                            <th>Modelo de la bomba</th>
+                            <th>Capacidad nominal de la bomba</th>
+                            <th>Longitud del golpe (Carrera)</th>
+                            <th>Velocidad del golpe (Pulsos)</th>
+                            <th>Flujo dosificado por la bomba</th>
+                            <th>Alerta de dosis</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($historialBombaDePozo as $history)
+                        @foreach ($historialOxidacion as $history)
                             <tr>
                                 <td>{{ $history->name }} {{ $history->strLastName }}</td>
                                 <td>{{ TimeFormat($history->datSampling) }}</td>
                                 <td class="text-right">{{ EnglishDateTimeFormat($history->datSampling) }}</td>
+                                <td>{{ $history->strNombre }}</td>
+                                <td class="text-right">{{ $history->capacidadNom }}</td>
                                 <td class="text-right">{{ $history->indicator1 }}</td>
-                                <td class="text-right">{{ $history->indicator3 }}</td>
                                 <td class="text-right">{{ $history->indicator2 }}</td>
+                                <td>{{ $history->flujoDosificado }}</td>
+                                <td>{{ $history->alerta }}</td>
                             </tr>
                         @endforeach
                     </tbody>
