@@ -85,18 +85,13 @@ class ApiController extends Controller
     {
         $planta = CatPlant::find($request->dblCatPlant);
         //Process Filtracion
-        $arrFiltros = $request->intFiltro ?? [];
-        $arrP1 = $request->indicatorFiltracion1 ?? [];
-        $arrP2 = $request->indicatorFiltracion2 ?? [];
-        foreach ($arrFiltros as $key => $value) {
-            $filtracion = new Filtracion();
-            $filtracion->indicator1 = $arrP1[$key];
-            $filtracion->indicator2 = $arrP2[$key];
-            $filtracion->intFiltro = $arrFiltros[$key];
-            $filtracion->intUser = $request->intUser;
-            $filtracion->dblCatPlant = $planta->dblCatPlant;
-            $filtracion->save();
-        }
+        $filtracion = new Filtracion();
+        $filtracion->indicator1 = $request->indicatorFiltracion1;
+        $filtracion->indicator2 = $request->indicatorFiltracion2;
+        $filtracion->intFiltro = $request->intFiltro;
+        $filtracion->intUser = $request->intUser;
+        $filtracion->dblCatPlant = $planta->dblCatPlant;
+        $filtracion->save();
 
         return response()->json(['message' => 'success', 'planta' => $planta], 200);
     }
