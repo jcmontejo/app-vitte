@@ -42,7 +42,8 @@ class UserController extends Controller
             'name' => 'min:3|required',
             'email' => 'required|email',
         ]);
-        $psd = password_generator();
+        // $psd = password_generator();
+        $psd = 'Temporal.2022';
         $obj = new User();
         $obj->name = $request->input("name");
         $obj->strLastName = $request->input("strLastName");

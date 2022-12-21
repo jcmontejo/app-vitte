@@ -1,59 +1,33 @@
-<div class="container my-5">
-    <div class="row">
-        <div class="col-lg-6">
-            <img class="w-100 shadow" src="{{ asset('images/process/oxidacion-cloro.png') }}" />
-        </div>
-        <div class="col-lg-6">
-            <div class="p-5 mt-4">
-                <div class="col-sm-8">
-                    <h4 class="d-inline-block">Indicadores</h4>
-                </div>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#mdlHistoryOxidacion">Historial Indicadores</button>
-                </div>
-                <div class="form-group col-md-12 col-lg-12 col-xs-12">
-                    <label>% Carrera<span class="text-danger">*</span></label>
-                    <input type="text" name="indicatorOxidacion1"
-                        class="form-control @error('indicatorOxidacion1') is-invalid @enderror"
-                        placeholder="Introduce indicador"/>
-                    @error('indicatorOxidacion1')
-                        <div class="fv-plugins-message-container">
-                            <div data-field="username" data-validator="notEmpty" class="fv-help-block">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        </div>
-                    @enderror
-                </div>
-                <div class="form-group col-md-12 col-lg-12 col-xs-12">
-                    <label>% Pulsos<span class="text-danger">*</span></label>
-                    <input type="text" name="indicatorOxidacion2"
-                        class="form-control @error('indicatorOxidacion2') is-invalid @enderror"
-                        placeholder="Introduce indicador"/>
-                    @error('indicatorOxidacion2')
-                        <div class="fv-plugins-message-container">
-                            <div data-field="username" data-validator="notEmpty" class="fv-help-block">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        </div>
-                    @enderror
-                </div>
-                {{-- <div class="form-group col-md-12 col-lg-12 col-xs-12">
-                    <label>Lpd Q<span class="text-danger">*</span></label>
-                    <input type="text" name="indicatorOxidacion3"
-                        class="form-control @error('indicatorOxidacion3') is-invalid @enderror"
-                        placeholder="Introduce indicador"
-                        value="{{ old('indicatorOxidacion3') ?? ($obj->oxidacion->indicator3 ?? '') }}" />
-                    @error('indicatorOxidacion3')
-                        <div class="fv-plugins-message-container">
-                            <div data-field="username" data-validator="notEmpty" class="fv-help-block">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        </div>
-                    @enderror
-                </div> --}}
-            </div>
-        </div>
-    </div>
+<div class="row">
+    <table class="table table-striped" id="tblOxidacion" style="width:100%">
+        <thead>
+            <tr>
+                <th>Operador</th>
+                <th>Hora</th>
+                <th>Fecha</th>
+                <th>Modelo de la bomba</th>
+                <th>Capacidad nominal de la bomba</th>
+                <th>Longitud del golpe (Carrera)</th>
+                <th>Velocidad del golpe (Pulsos)</th>
+                <th>Flujo dosificado por la bomba</th>
+                <th>Alerta de dosis</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($historialOxidacion as $history)
+                <tr>
+                    <td>{{ $history->name }} {{ $history->strLastName }}</td>
+                    <td>{{ TimeFormat($history->datSampling) }}</td>
+                    <td class="text-right">{{ EnglishDateTimeFormat($history->datSampling) }}</td>
+                    <td>{{ $history->strNombre }}</td>
+                    <td class="text-right">{{ $history->capacidadNom }}</td>
+                    <td class="text-right">{{ $history->indicator1 }}</td>
+                    <td class="text-right">{{ $history->indicator2 }}</td>
+                    <td>{{ $history->flujoDosificado }}</td>
+                    <td>{{ $history->alerta }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 @include('Plant.Catalogs.mdlHistoryOxidacion')

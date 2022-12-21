@@ -1,5 +1,5 @@
 {{-- Extends layout --}}
-@extends('layouts.default')
+@extends('layouts.admin')
 {{-- Content --}}
 @section('content')
     <div class="card card-custom">

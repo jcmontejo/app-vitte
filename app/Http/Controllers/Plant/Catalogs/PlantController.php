@@ -154,7 +154,7 @@ class PlantController extends Controller
 
             $intFiltro = $request->intFiltro ?? [];
             $strNombreFiltro = $request->strNombreFiltro ?? [];
-
+            $oldFiltros = Filtro::where('dblCatPlant', $obj->dblCatPlant)->whereNotIn('id',$intFiltro)->delete();
             foreach ($strNombreFiltro as $key => $value) {
                 $filtro = Filtro::findOrNew($intFiltro[$key]);
                 $filtro->strNombre = $strNombreFiltro[$key];
@@ -171,7 +171,7 @@ class PlantController extends Controller
             $well->intUser = Auth::user()->id;
             // $well->indicator4 = $request->indicator4;
             $well->dblCatPlant = $obj->dblCatPlant;
-            $well->save();
+            // $well->save();
 
             //Process Oxidacion
             // $oldOxidacion = Oxidacion::where('dblCatPlant', $obj->dblCatPlant)->delete();
@@ -181,7 +181,7 @@ class PlantController extends Controller
             $oxidacion->intUser = Auth::user()->id;
             // $oxidacion->indicator3 = $request->indicatorOxidacion3;
             $oxidacion->dblCatPlant = $obj->dblCatPlant;
-            $oxidacion->save();
+            // $oxidacion->save();
 
             //Process Decloracion
             $oldDecloracion = Decloracion::where('dblCatPlant', $obj->dblCatPlant)->delete();
@@ -190,7 +190,7 @@ class PlantController extends Controller
             $decloracion->indicator2 = $request->indicatorDecloracion2;
             $decloracion->indicator3 = $request->indicatorDecloracion3;
             $decloracion->dblCatPlant = $obj->dblCatPlant;
-            $decloracion->save();
+            // $decloracion->save();
 
             //Process Filtracion
             $oldFiltracion = Filtracion::where('dblCatPlant', $obj->dblCatPlant)->delete();
@@ -200,7 +200,7 @@ class PlantController extends Controller
             $filtracion->indicator3 = $request->indicatorFiltracion3;
             $filtracion->indicator4 = $request->indicatorFiltracion4;
             $filtracion->dblCatPlant = $obj->dblCatPlant;
-            $filtracion->save();
+            // $filtracion->save();
 
             //Process Osmosis
             $oldOsmosis = Osmosis::where('dblCatPlant', $obj->dblCatPlant)->delete();
@@ -210,7 +210,7 @@ class PlantController extends Controller
             $osmosis->indicator3 = $request->indicatorOsmosis3;
             $osmosis->indicator4 = $request->indicatorOsmosis4;
             $osmosis->dblCatPlant = $obj->dblCatPlant;
-            $osmosis->save();
+            // $osmosis->save();
 
             //Process Desinfeccion
             // $oldDesinfeccion = Desinfeccion::where('dblCatPlant', $obj->dblCatPlant)->delete();
@@ -224,7 +224,7 @@ class PlantController extends Controller
             // $desinfeccion->indicator6 = $request->indicatorDesinfeccion6;
             // $desinfeccion->indicator7 = $request->indicatorDesinfeccion7;
             $desinfeccion->dblCatPlant = $obj->dblCatPlant;
-            $desinfeccion->save();
+            // $desinfeccion->save();
 
             //Process incidence
             // $oldIncidences = Incidence::where('dblCatPlant', $obj->dblCatPlant)->delete();
