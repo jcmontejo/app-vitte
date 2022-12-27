@@ -103,6 +103,7 @@
             $("#tblAsistencias").DataTable({
                 responsive: true,
                 dom: 'Bfrtip',
+                order: [[1, 'desc']],
                 buttons: [
                     'excel', 'pdf'
                 ]
