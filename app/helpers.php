@@ -124,6 +124,6 @@ function getTotalPlant()
 
 function getOperadores()
 {
-    $operadores = User::where('dblCatTypeUser',3)->get();
+    $operadores = User::where('dblCatTypeUser',1)->get();
     return count($operadores);
 }
