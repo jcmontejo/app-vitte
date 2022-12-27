@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asistencia;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +63,15 @@ class CustomAuthController extends Controller
     public function dashboard()
     {
         if (Auth::check()) {
-            return view('dashboard');
+            $asistencias = Asistencia::join('users as t2', 'tblAsistencia.intUser','t2.id')
+                ->join('tblCatPlant as t3','t3.dblCatPlant','t2.dblCatPlant')
+                ->select(
+                    'tblAsistencia.created_at',
+                    't2.name',
+                    't2.strLastName',
+                    't3.strName'
+                )->get();
+            return view('dashboard',compact('asistencias'));
         }
 
         return redirect("login")->withSuccess('You are not allowed to access');

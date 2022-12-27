@@ -115,3 +115,15 @@ function extract_str($str, $num)
 
     return $finalStr;
 }
+
+function getTotalPlant()
+{
+    $plants = CatPlant::all();
+    return count($plants);
+}
+
+function getOperadores()
+{
+    $operadores = User::where('dblCatTypeUser',3)->get();
+    return count($operadores);
+}
