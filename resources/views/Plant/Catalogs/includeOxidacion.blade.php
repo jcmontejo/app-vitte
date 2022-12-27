@@ -1,16 +1,17 @@
 <div class="row">
+<div class="table-responsive">
     <table class="table table-striped" id="tblOxidacion" style="width:100%">
         <thead>
             <tr>
-                <th>Operador</th>
-                <th>Hora</th>
-                <th>Fecha</th>
-                <th>Modelo de la bomba</th>
-                <th>Capacidad nominal de la bomba</th>
-                <th>Longitud del golpe (Carrera)</th>
-                <th>Velocidad del golpe (Pulsos)</th>
-                <th>Flujo dosificado por la bomba</th>
-                <th>Alerta de dosis</th>
+                <th class="fit-space">Operador</th>
+                <th class="fit-space">Hora</th>
+                <th class="fit-space">Fecha</th>
+                <th class="fit-space">Modelo de la bomba</th>
+                <th class="fit-space">Capacidad nominal de la bomba</th>
+                <th class="fit-space">Longitud del golpe (Carrera)</th>
+                <th class="fit-space">Velocidad del golpe (Pulsos)</th>
+                <th class="fit-space">Flujo dosificado por la bomba</th>
+                <th class="fit-space">Alerta de dosis</th>
             </tr>
         </thead>
         <tbody>
@@ -29,5 +30,6 @@
             @endforeach
         </tbody>
     </table>
+</div>
 </div>
 @include('Plant.Catalogs.mdlHistoryOxidacion')

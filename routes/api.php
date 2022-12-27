@@ -43,6 +43,13 @@ Route::group([
         Route::post('plantas/guardar/filtracion', [ApiController::class, 'storeFiltracion']);
         Route::post('plantas/guardar/osmosis', [ApiController::class, 'storeOsmosis']);
         Route::post('plantas/guardar/decinfeccion', [ApiController::class, 'storeDesinfeccion']);
+        Route::post('plantas/guardar/decinfeccionOxidacion', [ApiController::class, 'storeOxidacionDesinfeccion']);
+        Route::post('plantas/guardar/mezcladorEstatico', [ApiController::class, 'storeMezcladorEstatico']);
+        Route::post('plantas/guardar/hipocloritoConSensor', [ApiController::class, 'storeHipocloritoConSensor']);
+        Route::post('plantas/guardar/carcamoBombeo', [ApiController::class, 'storeCarcamoBombeo']);
+        Route::post('plantas/guardar/sedimentador', [ApiController::class, 'storeSedimentador']);
+
+
         Route::post('plantas/guardar/incidencia', [ApiController::class, 'storeIncidencia']);
     });
 });

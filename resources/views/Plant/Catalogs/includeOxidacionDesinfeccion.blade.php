@@ -1,6 +1,6 @@
 <div class="row">
     <div class="table-responsive">
-        <table id="tblDesinfeccion" class="table table-striped" style="width:100%">
+        <table class="table table-striped" id="tblDesinfeccionOxidacion" style="width:100%">
             <thead>
                 <tr>
                     <th class="fit-space">Operador</th>
@@ -12,12 +12,10 @@
                     <th class="fit-space">Velocidad del golpe (Pulsos)</th>
                     <th class="fit-space">Flujo dosificado por la bomba</th>
                     <th class="fit-space">Alerta de dosis</th>
-                    <th class="fit-space">Cloro residual</th>
-                    <th class="fit-space">Alerta de cloro residual</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($historialDesinfeccion as $history)
+                @foreach ($historialOxidacionDesinfeccion as $history)
                     <tr>
                         <td>{{ $history->name }} {{ $history->strLastName }}</td>
                         <td>{{ TimeFormat($history->datSampling) }}</td>
@@ -28,12 +26,10 @@
                         <td class="text-right">{{ $history->indicator2 }}</td>
                         <td>{{ $history->flujoDosificado }}</td>
                         <td>{{ $history->alerta }}</td>
-                        <td>{{ $history->cloroResidual }}</td>
-                        <td>{{ $history->alertaCloro }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-
     </div>
-</div>
+    </div>
+    {{-- @include('Plant.Catalogs.mdlHistoryOxidacion') --}}

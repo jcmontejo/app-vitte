@@ -9,12 +9,10 @@
         <input type="hidden" name="dblCatPlant" class="form-control" value="{{ $obj->dblCatPlant }}" />
         <div class="row">
             <div class="col-md-3 col-xl-2">
-
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title mb-0">{{ $obj->strName }}</h5>
                     </div>
-
                     <div class="list-group list-group-flush" role="tablist">
                         <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account"
                             role="tab">
@@ -187,6 +185,27 @@
                     </div>
                     <div class="tab-pane fade" id="password" role="tabpanel">
                         <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Aplicar Filtros</h5>
+                                <h6 class="card-subtitle text-muted">Actualmente solo mostramos datos de la semana actual.</h6>
+                            </div>
+                            <div class="card-body">
+                                <form class="row row-cols-md-auto align-items-center">
+                                    <div class="col-12">
+                                        <label class="visually-hidden" for="from">Desde:</label>
+                                        <input type="date" class="form-control mb-2 me-sm-2" id="from">
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="visually-hidden" for="to">Hasta:</label>
+                                        <input type="date" class="form-control mb-2 me-sm-2" id="to">
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Procesos</h5>
                                 @include('Plant.Catalogs.includeBombaPozo')
@@ -202,13 +221,60 @@
         document.addEventListener("DOMContentLoaded", function() {
             // Datatables Responsive
             $("#tblBombaPozo").DataTable({
-                responsive: true
+                responsive: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf'
+                ]
             });
             $("#tblOxidacion").DataTable({
-                responsive: true
+                responsive: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf'
+                ]
             });
             $("#tblDesinfeccion").DataTable({
-                responsive: true
+                responsive: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf'
+                ]
+            });
+            $("#tblDesinfeccionOxidacion").DataTable({
+                responsive: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf'
+                ]
+            });
+            $("#tblMezclador").DataTable({
+                responsive: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf'
+                ]
+            });
+            $("#tblHipoclorito").DataTable({
+                responsive: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf'
+                ]
+            });
+            $("#tblCarcamo").DataTable({
+                responsive: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf'
+                ]
+            });
+            $("#tblSedimentador").DataTable({
+                responsive: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf'
+                ]
             });
             $('.select2').select2();
         });

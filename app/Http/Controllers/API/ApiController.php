@@ -4,7 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Asistencia;
+use App\Models\CarcamoBombeo;
 use App\Models\Filtro;
+use App\Models\HipocloritoConSensor;
+use App\Models\MezcladorEstatico;
+use App\Models\OxidacionDesinfeccion;
 use App\Models\Plant\Catalogs\CatPlant;
 use App\Models\Plant\Catalogs\Decloracion;
 use App\Models\Plant\Catalogs\Desinfeccion;
@@ -13,6 +17,7 @@ use App\Models\Plant\Catalogs\Incidence;
 use App\Models\Plant\Catalogs\Osmosis;
 use App\Models\Plant\Catalogs\Oxidacion;
 use App\Models\Plant\Catalogs\WellPump;
+use App\Models\Sedimentador;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
@@ -26,6 +31,7 @@ class ApiController extends Controller
     public function getPlanta(Request $request)
     {
         $planta = CatPlant::find($request->dblCatPlant);
+
         $filtros = Filtro::where('dblCatPlant',$request->dblCatPlant)->get();
         $asistencia = new Asistencia();
         $asistencia->intUser = $request->intUser;
@@ -40,7 +46,7 @@ class ApiController extends Controller
     public function storeBombaPozo(Request $request)
     {
         $planta = CatPlant::find($request->dblCatPlant);
-        // Process bomba de pozo
+
         $well = new WellPump();
         $well->indicator1 = $request->indicator1;
         $well->indicator2 = $request->indicator2;
@@ -55,7 +61,7 @@ class ApiController extends Controller
     public function storeOxidacionCloro(Request $request)
     {
         $planta = CatPlant::find($request->dblCatPlant);
-        //Process Oxidacion
+
         $oxidacion = new Oxidacion();
         $oxidacion->indicator1 = $request->indicatorOxidacion1;
         $oxidacion->indicator2 = $request->indicatorOxidacion2;
@@ -69,8 +75,7 @@ class ApiController extends Controller
     public function storeDecloracion(Request $request)
     {
         $planta = CatPlant::find($request->dblCatPlant);
-        //Process Decloracion
-        $oldDecloracion = Decloracion::where('dblCatPlant', $planta->dblCatPlant)->delete();
+
         $decloracion = new Decloracion();
         $decloracion->indicator1 = $request->indicatorDecloracion1;
         $decloracion->indicator2 = $request->indicatorDecloracion2;
@@ -84,7 +89,7 @@ class ApiController extends Controller
     public function storeFiltracion(Request $request)
     {
         $planta = CatPlant::find($request->dblCatPlant);
-        //Process Filtracion
+
         $filtracion = new Filtracion();
         $filtracion->indicator1 = $request->indicatorFiltracion1;
         $filtracion->indicator2 = $request->indicatorFiltracion2;
@@ -99,8 +104,7 @@ class ApiController extends Controller
     public function storeOsmosis(Request $request)
     {
         $planta = CatPlant::find($request->dblCatPlant);
-        //Process Osmosis
-        $oldOsmosis = Osmosis::where('dblCatPlant', $planta->dblCatPlant)->delete();
+
         $osmosis = new Osmosis();
         $osmosis->indicator1 = $request->indicatorOsmosis1;
         $osmosis->indicator2 = $request->indicatorOsmosis2;
@@ -114,28 +118,89 @@ class ApiController extends Controller
     public function storeDesinfeccion(Request $request)
     {
         $planta = CatPlant::find($request->dblCatPlant);
-        //Process Desinfeccion
-        // $oldDesinfeccion = Desinfeccion::where('dblCatPlant', $planta->dblCatPlant)->delete();
+
         $desinfeccion = new Desinfeccion();
         $desinfeccion->indicator1 = $request->indicatorDesinfeccion1;
         $desinfeccion->indicator2 = $request->indicatorDesinfeccion2;
         $desinfeccion->intUser = $request->intUser;
-        // $desinfeccion->indicator3 = $request->indicatorDesinfeccion3;
-        // $desinfeccion->indicator4 = $request->indicatorDesinfeccion4;
-        // $desinfeccion->indicator5 = $request->indicatorDesinfeccion5;
-        // $desinfeccion->indicator6 = $request->indicatorDesinfeccion6;
-        // $desinfeccion->indicator7 = $request->indicatorDesinfeccion7;
         $desinfeccion->dblCatPlant = $planta->dblCatPlant;
         $desinfeccion->save();
 
         return response()->json(['message' => 'success', 'planta' => $planta], 200);
     }
 
+    public function storeOxidacionDesinfeccion(Request $request)
+    {
+        $planta = CatPlant::find($request->dblCatPlant);
+
+        $newRegister = new OxidacionDesinfeccion();
+        $newRegister->indicator1 = $request->indicator1;
+        $newRegister->indicator2 = $request->indicator2;
+        $newRegister->indicator3 = $request->indicator3;
+        $newRegister->intUser = $request->intUser;
+        $newRegister->dblCatPlant = $planta->dblCatPlant;
+        $newRegister->save();
+
+        return response()->json(['message'=>'success','planta'=>$planta],200);
+    }
+
+    public function storeMezcladorEstatico(Request $request)
+    {
+        $planta = CatPlant::find($request->dblCatPlant);
+
+        $newRegister = new MezcladorEstatico();
+        $newRegister->indicator1 = $request->indicator1;
+        $newRegister->indicator2 = $request->indicator2;
+        $newRegister->intUser = $request->intUser;
+        $newRegister->dblCatPlant = $planta->dblCatPlant;
+        $newRegister->save();
+
+        return response()->json(['message'=>'success','planta'=>$planta],200);
+    }
+
+    public function storeHipocloritoConSensor(Request $request)
+    {
+        $planta = CatPlant::find($request->dblCatPlant);
+
+        $newRegister = new HipocloritoConSensor();
+        $newRegister->indicator1 = $request->indicator1;
+        $newRegister->intUser = $request->intUser;
+        $newRegister->dblCatPlant = $planta->dblCatPlant;
+        $newRegister->save();
+
+        return response()->json(['message'=>'success','planta'=>$planta],200);
+    }
+
+    public function storeCarcamoBombeo(Request $request)
+    {
+        $planta = CatPlant::find($request->dblCatPlant);
+
+        $newRegister = new CarcamoBombeo();
+        $newRegister->indicator1 = $request->indicator1;
+        $newRegister->intUser = $request->intUser;
+        $newRegister->dblCatPlant = $planta->dblCatPlant;
+        $newRegister->save();
+
+        return response()->json(['message'=>'success','planta'=>$planta],200);
+    }
+
+    public function storeSedimentador(Request $request)
+    {
+        $planta = CatPlant::find($request->dblCatPlant);
+
+        $newRegister = new Sedimentador();
+        $newRegister->indicator1 = $request->indicator1;
+        $newRegister->intUser = $request->intUser;
+        $newRegister->dblCatPlant = $planta->dblCatPlant;
+        $newRegister->save();
+
+        return response()->json(['message'=>'success','planta'=>$planta],200);
+    }
+
     public function storeIncidencia(Request $request)
     {
         $planta = CatPlant::find($request->dblCatPlant);
-        //Process incidence
-        // $oldIncidences = Incidence::where('dblCatPlant', $obj->dblCatPlant)->delete();
+
         if ($request->capacidad != "" or $request->presion != "" or $request->problemasCalidad != "" or $planta->dblCatPlant != "") {
             $well = new Incidence();
             $well->indicator1 = $request->capacidad;
