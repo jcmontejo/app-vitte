@@ -63,8 +63,8 @@ class CustomAuthController extends Controller
     public function dashboard()
     {
         if (Auth::check()) {
-            $asistencias = Asistencia::join('users as t2', 'tblAsistencia.intUser','t2.id')
-                ->join('tblCatPlant as t3','t3.dblCatPlant','t2.dblCatPlant')
+            $asistencias = Asistencia::leftjoin('users as t2', 'tblAsistencia.intUser','t2.id')
+                ->leftjoin('tblCatPlant as t3','t3.dblCatPlant','t2.dblCatPlant')
                 ->select(
                     'tblAsistencia.created_at',
                     't2.name',
