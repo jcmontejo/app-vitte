@@ -70,7 +70,7 @@ class CustomAuthController extends Controller
                     't2.name',
                     't2.strLastName',
                     't3.strName'
-                )->get();
+                )->orderBy('tblAsistencia.created_at','DESC')->get();
             return view('dashboard',compact('asistencias'));
         }
 
