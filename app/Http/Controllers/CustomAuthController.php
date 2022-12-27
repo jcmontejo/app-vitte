@@ -76,7 +76,7 @@ class CustomAuthController extends Controller
                     't3.strName'
                 )
                 ->whereBetween('tblAsistencia.created_at', [$from, $to])
-                ->orderBy('tblAsistencia.created_at', 'DESC')->get();
+                ->orderBy('tblAsistencia.created_at', 'ASC')->get();
             return view('dashboard', compact('asistencias'));
         }
 
