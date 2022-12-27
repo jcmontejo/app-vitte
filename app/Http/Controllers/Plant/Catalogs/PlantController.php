@@ -47,6 +47,19 @@ class PlantController extends Controller
         $incidences = [];
         $obj = new CatPlant();
         $objBombas = CatModeloBomba::all();
+        $objFiltros = [];
+        $historialBombaDePozo = [];
+        $historialOxidacion = [];
+        $historialDesinfeccion = [];
+        $historialOxidacionDesinfeccion = [];
+        $historialMezcladorEstatico = [];
+        $historialHipocloritoSensor = [];
+        $historialCarcamo = [];
+        $historialSedimentador = [];
+
+        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'objFiltros', 'objBombas', 'historialBombaDePozo', 'historialOxidacion',
+        'historialDesinfeccion', 'historialOxidacionDesinfeccion', 'historialMezcladorEstatico',
+        'historialHipocloritoSensor', 'historialCarcamo', 'historialSedimentador', 'incidences'));
         return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'objBombas', 'trasheds', 'incidences'));
     }
 

@@ -170,9 +170,11 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="text-center">
+                                                @if ($obj->dblCatPlant>0)
                                                 <div class="img-responsive mt-2">
                                                     {!! QrCode::color(0, 100, 0)->size(200)->generate($obj->dblCatPlant) !!}
                                                 </div>
+                                                @endif
                                                 <small>Imprime o escanea este QR desde la aplicación móvil, para interactuar
                                                     con los procesos de la planta.</small>
                                             </div>
