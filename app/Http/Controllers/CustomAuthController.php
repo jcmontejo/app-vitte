@@ -63,15 +63,21 @@ class CustomAuthController extends Controller
     public function dashboard()
     {
         if (Auth::check()) {
-            $asistencias = Asistencia::leftjoin('users as t2', 'tblAsistencia.intUser','t2.id')
-                ->leftjoin('tblCatPlant as t3','t3.dblCatPlant','t2.dblCatPlant')
+            // ? filters
+            $now = now();
+            $from = $now->copy()->startOfWeek()->format('Y-m-d');
+            $to = $now->copy()->endOfWeek()->format('Y-m-d');
+            $asistencias = Asistencia::leftjoin('users as t2', 'tblAsistencia.intUser', 't2.id')
+                ->leftjoin('tblCatPlant as t3', 't3.dblCatPlant', 't2.dblCatPlant')
                 ->select(
                     'tblAsistencia.created_at',
                     't2.name',
                     't2.strLastName',
                     't3.strName'
-                )->orderBy('tblAsistencia.created_at','DESC')->get();
-            return view('dashboard',compact('asistencias'));
+                )
+                ->whereBetween('tblAsistencia.created_at', [$from, $to])
+                ->orderBy('tblAsistencia.created_at', 'DESC')->get();
+            return view('dashboard', compact('asistencias'));
         }
 
         return redirect("login")->withSuccess('You are not allowed to access');
