@@ -80,7 +80,7 @@ class PlantController extends Controller
         return redirect()->route('plant.index');
     }
 
-    public function edit(Request $request, $dblCatPlant)
+    public function edit(Request $request, $dblCatPlant,$from,$to)
     {
         $page_title = 'Editar Planta';
         $method = $request->method();
@@ -89,8 +89,11 @@ class PlantController extends Controller
         $objBombas = CatModeloBomba::all();
         // ? filters
         $now = now();
-        $from = $now->copy()->startOfWeek()->format('Y-m-d');
-        $to = $now->copy()->endOfWeek()->format('Y-m-d');
+        $from = ($from != 'na') ? $from : $now->copy()->startOfWeek()->format('Y-m-d');
+        // $from = $now->copy()->startOfWeek()->format('Y-m-d');
+        $to = ($to != 'na') ? $to : $now->copy()->endOfWeek()->format('Y-m-d');
+        // $to = $now->copy()->endOfWeek()->format('Y-m-d');
+        // dd($from,$to);
 
         $historialBombaDePozo = WellPump::leftJoin('users as t2', 't2.id', 'tblProcessWellPump.intUser')
             ->where('tblProcessWellPump.dblCatPlant', $obj->dblCatPlant)
@@ -255,7 +258,7 @@ class PlantController extends Controller
         // dd($historialCarcamo);
 
         $incidences = Incidence::where('dblCatPlant', $obj->dblCatPlant)->get();
-        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'objFiltros', 'objBombas', 'historialBombaDePozo', 'historialOxidacion', 'historialDesinfeccion', 'historialOxidacionDesinfeccion', 'historialMezcladorEstatico', 'historialHipocloritoSensor', 'historialCarcamo', 'historialSedimentador', 'incidences'));
+        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'from', 'to', 'objFiltros', 'objBombas', 'historialBombaDePozo', 'historialOxidacion', 'historialDesinfeccion', 'historialOxidacionDesinfeccion', 'historialMezcladorEstatico', 'historialHipocloritoSensor', 'historialCarcamo', 'historialSedimentador', 'incidences'));
     }
 
     public function update(Request $request)
@@ -361,8 +364,12 @@ class PlantController extends Controller
                 $well->save();
             }
         });
+        // dd($request->from,$request->to);
+        $from = ($request->from) ? $request->from : 'na';
+        $to = ($request->to) ? $request->to : 'na';
+        // dd($from,$to);
         $request->session()->flash('message', 'Registro actualizado!');
-        return redirect()->route('plant.edit', $request->dblCatPlant);
+        return redirect()->route('plant.edit', ['id'=>$request->dblCatPlant,'from'=>$from,'to'=>$to]);
     }
 
     public function destroy($dblCatTypeUser)

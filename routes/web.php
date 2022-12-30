@@ -51,7 +51,7 @@ Route::get('/plant/plant/create', [PlantController::class, 'create']);
 Route::post('/plant/plant/create', [PlantController::class, 'store']);
 
 Route::put('/plant/plant/edit', [PlantController::class, 'update']);
-Route::get('/plant/plant/{id}/edit', [PlantController::class, 'edit'])->name('plant.edit');
+Route::get('/plant/plant/{id}/edit/from/{from?}/to/{to?}', [PlantController::class, 'edit'])->name('plant.edit');
 Route::put('/plant/plant/{id}', [PlantController::class, 'destroy']);
 
 ##User

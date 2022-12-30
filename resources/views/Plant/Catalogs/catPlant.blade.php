@@ -181,7 +181,7 @@
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Guardar</button>
-                                </form>
+                                {{-- </form> --}}
                             </div>
                         </div>
                     </div>
@@ -192,19 +192,19 @@
                                 <h6 class="card-subtitle text-muted">Actualmente solo mostramos datos de la semana actual.</h6>
                             </div>
                             <div class="card-body">
-                                <form class="row row-cols-md-auto align-items-center">
+                                <div class="row row-cols-md-auto align-items-center">
                                     <div class="col-12">
                                         <label class="visually-hidden" for="from">Desde:</label>
-                                        <input type="date" class="form-control mb-2 me-sm-2" id="from">
+                                        <input type="date" class="form-control mb-2 me-sm-2" id="from" name="from" value="{{ $from }}">
                                     </div>
                                     <div class="col-12">
                                         <label class="visually-hidden" for="to">Hasta:</label>
-                                        <input type="date" class="form-control mb-2 me-sm-2" id="to">
+                                        <input type="date" class="form-control mb-2 me-sm-2" id="to" name="to" value="{{ $to }}">
                                     </div>
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                                        <button type="submit" class="btn btn-primary mb-2">Buscar</button>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                         <div class="card">

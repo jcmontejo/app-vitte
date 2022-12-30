@@ -29,7 +29,7 @@
                         <tr>
                             <td class="text-center">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a href="/plant/plant/{{ $item->dblCatPlant }}/edit"><button class="btn btn-success"><i
+                                    <a href="/plant/plant/{{ $item->dblCatPlant }}/edit/from/na/to/na"><button class="btn btn-success"><i
                                                 class="fa-solid fa-pen-to-square"></i></button></a>
                                     <a class="delete" value="{{ $item->dblCatPlant }}"
                                         href="/plant/plant/{{ $item->dblCatPlant }}/edit"><button class="btn btn-danger"><i
