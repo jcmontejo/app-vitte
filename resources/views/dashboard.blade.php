@@ -99,14 +99,14 @@
     @endsection
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Datatables Responsive
-            // $("#tblAsistencias").DataTable({
-            //     responsive: true,
-            //     dom: 'Bfrtip',
-            //     order: [[1, 'desc']],
-            //     buttons: [
-            //         'excel', 'pdf'
-            //     ]
-            // });
+            Datatables Responsive
+            $("#tblAsistencias").DataTable({
+                responsive: true,
+                dom: 'Bfrtip',
+                order: [[1, 'desc']],
+                buttons: [
+                    'excel', 'pdf'
+                ]
+            });
         });
     </script>
