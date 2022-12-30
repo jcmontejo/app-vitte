@@ -224,13 +224,19 @@
             // Datatables Responsive
             $("#tblBombaPozo").DataTable({
                 responsive: true,
+                paging: false,
+                ordering: false,
+                info: false,
                 dom: 'Bfrtip',
                 buttons: [
                     'excel', 'pdf'
-                ]
+                ],
             });
             $("#tblOxidacion").DataTable({
                 responsive: true,
+                paging: false,
+                ordering: false,
+                info: false,
                 dom: 'Bfrtip',
                 buttons: [
                     'excel', 'pdf'
@@ -238,6 +244,9 @@
             });
             $("#tblDesinfeccion").DataTable({
                 responsive: true,
+                paging: false,
+                ordering: false,
+                info: false,
                 dom: 'Bfrtip',
                 buttons: [
                     'excel', 'pdf'
@@ -245,6 +254,9 @@
             });
             $("#tblDesinfeccionOxidacion").DataTable({
                 responsive: true,
+                paging: false,
+                ordering: false,
+                info: false,
                 dom: 'Bfrtip',
                 buttons: [
                     'excel', 'pdf'
@@ -252,6 +264,9 @@
             });
             $("#tblMezclador").DataTable({
                 responsive: true,
+                paging: false,
+                ordering: false,
+                info: false,
                 dom: 'Bfrtip',
                 buttons: [
                     'excel', 'pdf'
@@ -259,6 +274,9 @@
             });
             $("#tblHipoclorito").DataTable({
                 responsive: true,
+                paging: false,
+                ordering: false,
+                info: false,
                 dom: 'Bfrtip',
                 buttons: [
                     'excel', 'pdf'
@@ -266,6 +284,9 @@
             });
             $("#tblCarcamo").DataTable({
                 responsive: true,
+                paging: false,
+                ordering: false,
+                info: false,
                 dom: 'Bfrtip',
                 buttons: [
                     'excel', 'pdf'
@@ -273,6 +294,9 @@
             });
             $("#tblSedimentador").DataTable({
                 responsive: true,
+                paging: false,
+                ordering: false,
+                info: false,
                 dom: 'Bfrtip',
                 buttons: [
                     'excel', 'pdf'
@@ -320,6 +344,9 @@
                 scrollY: '60vh',
                 scrollX: '1140px',
                 "bPaginate": false,
+                paging: false,
+                ordering: false,
+                info: false,
             });
 
             tblBombaPozo = $("#tblBombaPozo").DataTable({
@@ -331,6 +358,10 @@
                 scrollY: '20vh',
                 scrollX: '1140px',
                 "bPaginate": false,
+                paging: false,
+                ordering: false,
+                info: false,
+
             });
 
             tblOxidacion = $("#tblOxidacion").DataTable({
@@ -342,6 +373,10 @@
                 scrollY: '20vh',
                 scrollX: '1140px',
                 "bPaginate": false,
+                paging: false,
+                ordering: false,
+                info: false,
+
             });
 
         }
