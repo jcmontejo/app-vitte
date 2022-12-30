@@ -33,10 +33,12 @@ class ApiController extends Controller
         $planta = CatPlant::find($request->dblCatPlant);
 
         $filtros = Filtro::where('dblCatPlant',$request->dblCatPlant)->get();
-        $asistencia = new Asistencia();
-        $asistencia->intUser = $request->intUser;
-        $asistencia->dblCatPlant = $request->dblCatPlant;
-        $asistencia->save();
+        if ($planta) {
+            $asistencia = new Asistencia();
+            $asistencia->intUser = $request->intUser;
+            $asistencia->dblCatPlant = $planta->dblCatPlant;
+            $asistencia->save();
+        }
         return response()->json([
             'planta' => $planta,
             'filtros' => $filtros
