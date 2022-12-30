@@ -10,8 +10,10 @@
                     <th class="fit-space">Capacidad nominal de la bomba</th>
                     <th class="fit-space">Longitud del golpe (Carrera)</th>
                     <th class="fit-space">Velocidad del golpe (Pulsos)</th>
-                    <th class="fit-space">Flujo dosificado por la bomba</th>
+                    <th class="fit-space">Fd (LPH)</th>
                     <th class="fit-space">Alerta de dosis</th>
+                    <th class="fit-space">CR</th>
+                    <th class="fit-space">Alerta CR</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,8 +26,10 @@
                         <td class="text-right">{{ $history->capacidadNom }}</td>
                         <td class="text-right">{{ $history->indicator1 }}</td>
                         <td class="text-right">{{ $history->indicator2 }}</td>
-                        <td>{{ $history->flujoDosificado }}</td>
+                        <td>{{ $history->dblFlujoDisenioOxidante }}</td>
                         <td>{{ $history->alerta }}</td>
+                        <td>{{ $history->indicator3 }}</td>
+                        <td>{{ $history->alertaCloro }}</td>
                     </tr>
                 @endforeach
             </tbody>

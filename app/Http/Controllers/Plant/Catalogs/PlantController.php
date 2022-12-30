@@ -166,7 +166,7 @@ class PlantController extends Controller
         ->get()
         ->map(function ($obj) {
             $alerta = '';
-            $dblCapacidadNominal = $obj->dblCapacidadNominal ?? 0;
+            $dblCapacidadNominal = $obj->dblFlujoDisenioOxidante ?? 0;
             $flujoReal = (($dblCapacidadNominal / 100) * ($obj->indicator1 / 100)) * $obj->indicator2;
             $fb = $flujoReal / 1.5;
             $fa = $flujoReal * 1.5;

@@ -68,7 +68,7 @@ class CustomAuthController extends Controller
             $from = $now->copy()->startOfWeek()->format('Y-m-d');
             $to = $now->copy()->endOfWeek()->format('Y-m-d');
             $asistencias = Asistencia::leftjoin('users as t2', 'tblAsistencia.intUser', 't2.id')
-                ->leftjoin('tblCatPlant as t3', 't3.dblCatPlant', 't2.dblCatPlant')
+                ->leftjoin('tblCatPlant as t3', 't3.dblCatPlant', 'tblAsistencia.dblCatPlant')
                 ->select(
                     'tblAsistencia.created_at',
                     't2.name',
