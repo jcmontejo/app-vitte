@@ -388,7 +388,7 @@ class PlantController extends Controller
         $fileName = $plant->strName . '-qrcode.svg';
         $fileDest = storage_path('app/public/' . $fileName);
         $url = $plant->dblCatPlant;
-        QrCode::size(400)->generate($url, $fileDest);
+        QrCode::format('png')->size(400)->generate($url, $fileDest);
         // ? download QR
         return (response()->download($fileDest));
     }
