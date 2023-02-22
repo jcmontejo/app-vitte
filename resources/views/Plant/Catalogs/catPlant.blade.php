@@ -174,10 +174,9 @@
                                                     <div class="img-responsive mt-2">
                                                         {!! QrCode::color(0, 100, 0)->size(200)->generate($obj->dblCatPlant) !!}
                                                     </div>
-                                                @endif
-                                                <small>Imprime o escanea este QR desde la aplicación móvil, para interactuar
-                                                    con los procesos de la planta.</small>
-                                                @if ($obj->dblCatPlant > 0)
+                                                    <small>Imprime o escanea este QR desde la aplicación móvil, para
+                                                        interactuar
+                                                        con los procesos de la planta.</small>
                                                     <a
                                                         href="{{ url('/plant/plant/downloadQr') }}/{{ $obj->dblCatPlant }}">
                                                         <button type="button" class="btn btn-light"><span
