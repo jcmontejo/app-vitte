@@ -177,9 +177,12 @@
                                                 @endif
                                                 <small>Imprime o escanea este QR desde la aplicación móvil, para interactuar
                                                     con los procesos de la planta.</small>
-                                                <a href="{{ url('/plant/plant/downloadQr') }}/{{ $obj->dblCatPlant }}">
-                                                    <button type="button" class="btn btn-light"><span
-                                                            class="fa fa-download"></span></button></a>
+                                                @if ($obj->dblCatPlant > 0)
+                                                    <a
+                                                        href="{{ url('/plant/plant/downloadQr') }}/{{ $obj->dblCatPlant }}">
+                                                        <button type="button" class="btn btn-light"><span
+                                                                class="fa fa-download"></span></button></a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
