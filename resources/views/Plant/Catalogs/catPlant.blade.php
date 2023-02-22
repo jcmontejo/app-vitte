@@ -170,18 +170,21 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="text-center">
-                                                @if ($obj->dblCatPlant>0)
-                                                <div class="img-responsive mt-2">
-                                                    {!! QrCode::color(0, 100, 0)->size(200)->generate($obj->dblCatPlant) !!}
-                                                </div>
+                                                @if ($obj->dblCatPlant > 0)
+                                                    <div class="img-responsive mt-2">
+                                                        {!! QrCode::color(0, 100, 0)->size(200)->generate($obj->dblCatPlant) !!}
+                                                    </div>
                                                 @endif
                                                 <small>Imprime o escanea este QR desde la aplicación móvil, para interactuar
                                                     con los procesos de la planta.</small>
+                                                <a href="{{ url('/plant/plant/downloadQr') }}/{{ $obj->dblCatPlant }}">
+                                                    <button type="button" class="btn btn-light"><span
+                                                            class="fa fa-download"></span></button></a>
                                             </div>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Guardar</button>
-                                {{-- </form> --}}
+                                    {{-- </form> --}}
                             </div>
                         </div>
                     </div>
@@ -189,17 +192,20 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title">Aplicar Filtros</h5>
-                                <h6 class="card-subtitle text-muted">Actualmente solo mostramos datos de la semana actual.</h6>
+                                <h6 class="card-subtitle text-muted">Actualmente solo mostramos datos de la semana actual.
+                                </h6>
                             </div>
                             <div class="card-body">
                                 <div class="row row-cols-md-auto align-items-center">
                                     <div class="col-12">
                                         <label class="visually-hidden" for="from">Desde:</label>
-                                        <input type="date" class="form-control mb-2 me-sm-2" id="from" name="from" value="{{ $from }}">
+                                        <input type="date" class="form-control mb-2 me-sm-2" id="from"
+                                            name="from" value="{{ $from }}">
                                     </div>
                                     <div class="col-12">
                                         <label class="visually-hidden" for="to">Hasta:</label>
-                                        <input type="date" class="form-control mb-2 me-sm-2" id="to" name="to" value="{{ $to }}">
+                                        <input type="date" class="form-control mb-2 me-sm-2" id="to"
+                                            name="to" value="{{ $to }}">
                                     </div>
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary mb-2">Buscar</button>

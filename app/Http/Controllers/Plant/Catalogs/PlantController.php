@@ -21,6 +21,7 @@ use App\Models\Sedimentador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PlantController extends Controller
 {
@@ -56,11 +57,14 @@ class PlantController extends Controller
         $historialHipocloritoSensor = [];
         $historialCarcamo = [];
         $historialSedimentador = [];
+        $from = ($request->from) ? $request->from : 'na';
+        $to = ($request->to) ? $request->to : 'na';
 
         return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'objFiltros', 'objBombas', 'historialBombaDePozo', 'historialOxidacion',
-        'historialDesinfeccion', 'historialOxidacionDesinfeccion', 'historialMezcladorEstatico',
-        'historialHipocloritoSensor', 'historialCarcamo', 'historialSedimentador', 'incidences'));
-        return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'objBombas', 'trasheds', 'incidences'));
+            'historialDesinfeccion', 'historialOxidacionDesinfeccion', 'historialMezcladorEstatico',
+            'historialHipocloritoSensor', 'historialCarcamo', 'historialSedimentador', 'incidences', 'from', 'to'));
+
+        // return view('Plant.Catalogs.catPlant', compact('page_title', 'obj', 'objBombas', 'trasheds', 'incidences'));
     }
 
     public function store(Request $request)
@@ -80,7 +84,7 @@ class PlantController extends Controller
         return redirect()->route('plant.index');
     }
 
-    public function edit(Request $request, $dblCatPlant,$from,$to)
+    public function edit(Request $request, $dblCatPlant, $from, $to)
     {
         $page_title = 'Editar Planta';
         $method = $request->method();
@@ -162,99 +166,99 @@ class PlantController extends Controller
                 return $obj;
             });
         $historialOxidacionDesinfeccion = OxidacionDesinfeccion::leftJoin('users as t2', 't2.id', 'tblProcessOxidacionDesinfeccion.intUser')
-        ->join('tblCatPlant as t3', 't3.dblCatPlant', 'tblProcessOxidacionDesinfeccion.dblCatPlant')
-        ->leftJoin('catModeloBomba as t4', 't4.id', 't3.intModeloBomba')
-        ->where('tblProcessOxidacionDesinfeccion.dblCatPlant', $obj->dblCatPlant)
-        ->whereBetween('tblProcessOxidacionDesinfeccion.datSampling', [$from, $to])
-        ->get()
-        ->map(function ($obj) {
-            $alerta = '';
-            $dblCapacidadNominal = $obj->dblFlujoDisenioOxidante ?? 0;
-            $flujoReal = (($dblCapacidadNominal / 100) * ($obj->indicator1 / 100)) * $obj->indicator2;
-            $fb = $flujoReal / 1.5;
-            $fa = $flujoReal * 1.5;
-            if ($flujoReal < $fb) {
-                $alerta = 'Flujo bajo, aumente velocidad del golpe y/o longitud del golpe.';
-            } elseif ($flujoReal > $fa) {
-                $alerta = 'Flujo alto, reduzaca velocidad del golpe y/o longitud del golpe.';
-            } else {
-                $alerta = 'Flujo adecuado';
-            }
-            // calculo cloro residual
-            $alertaCloro = '';
-            $cloroResidual = $obj->indicator3 ?? 0;
-            if ($cloroResidual <= 0.2) {
-                $alertaCloro = 'Cloro residual bajo, aumente velocidad de carrera y/o pulsos';
-            } elseif ($cloroResidual >= 1.5) {
-                $alertaCloro = 'Cloro residual alto, reduzca velocidad de carrera y/o pulsos';
-            } else {
-                $alertaCloro = 'CLORO RESIDUAL ADECUADO';
-            }
-            $obj->capacidadNom = $dblCapacidadNominal;
-            $obj->flujoDosificado = number_format($flujoReal, 2);
-            $obj->alerta = $alerta;
-            $obj->cloroResidual = number_format($cloroResidual);
-            $obj->alertaCloro = $alertaCloro;
-            return $obj;
-        });
+            ->join('tblCatPlant as t3', 't3.dblCatPlant', 'tblProcessOxidacionDesinfeccion.dblCatPlant')
+            ->leftJoin('catModeloBomba as t4', 't4.id', 't3.intModeloBomba')
+            ->where('tblProcessOxidacionDesinfeccion.dblCatPlant', $obj->dblCatPlant)
+            ->whereBetween('tblProcessOxidacionDesinfeccion.datSampling', [$from, $to])
+            ->get()
+            ->map(function ($obj) {
+                $alerta = '';
+                $dblCapacidadNominal = $obj->dblFlujoDisenioOxidante ?? 0;
+                $flujoReal = (($dblCapacidadNominal / 100) * ($obj->indicator1 / 100)) * $obj->indicator2;
+                $fb = $flujoReal / 1.5;
+                $fa = $flujoReal * 1.5;
+                if ($flujoReal < $fb) {
+                    $alerta = 'Flujo bajo, aumente velocidad del golpe y/o longitud del golpe.';
+                } elseif ($flujoReal > $fa) {
+                    $alerta = 'Flujo alto, reduzaca velocidad del golpe y/o longitud del golpe.';
+                } else {
+                    $alerta = 'Flujo adecuado';
+                }
+                // calculo cloro residual
+                $alertaCloro = '';
+                $cloroResidual = $obj->indicator3 ?? 0;
+                if ($cloroResidual <= 0.2) {
+                    $alertaCloro = 'Cloro residual bajo, aumente velocidad de carrera y/o pulsos';
+                } elseif ($cloroResidual >= 1.5) {
+                    $alertaCloro = 'Cloro residual alto, reduzca velocidad de carrera y/o pulsos';
+                } else {
+                    $alertaCloro = 'CLORO RESIDUAL ADECUADO';
+                }
+                $obj->capacidadNom = $dblCapacidadNominal;
+                $obj->flujoDosificado = number_format($flujoReal, 2);
+                $obj->alerta = $alerta;
+                $obj->cloroResidual = number_format($cloroResidual);
+                $obj->alertaCloro = $alertaCloro;
+                return $obj;
+            });
 
         $historialMezcladorEstatico = MezcladorEstatico::leftJoin('users as t2', 't2.id', 'tblProcessMezcladorEstatico.intUser')
-        ->join('tblCatPlant as t3', 't3.dblCatPlant', 'tblProcessMezcladorEstatico.dblCatPlant')
-        ->leftJoin('catModeloBomba as t4', 't4.id', 't3.intModeloBomba')
-        ->where('tblProcessMezcladorEstatico.dblCatPlant', $obj->dblCatPlant)
-        ->whereBetween('tblProcessMezcladorEstatico.datSampling', [$from, $to])
-        ->get();
+            ->join('tblCatPlant as t3', 't3.dblCatPlant', 'tblProcessMezcladorEstatico.dblCatPlant')
+            ->leftJoin('catModeloBomba as t4', 't4.id', 't3.intModeloBomba')
+            ->where('tblProcessMezcladorEstatico.dblCatPlant', $obj->dblCatPlant)
+            ->whereBetween('tblProcessMezcladorEstatico.datSampling', [$from, $to])
+            ->get();
 
         $historialHipocloritoSensor = HipocloritoConSensor::leftJoin('users as t2', 't2.id', 'tblProcessHipocloritoConSensor.intUser')
-        ->join('tblCatPlant as t3', 't3.dblCatPlant', 'tblProcessHipocloritoConSensor.dblCatPlant')
-        ->leftJoin('catModeloBomba as t4', 't4.id', 't3.intModeloBomba')
-        ->where('tblProcessHipocloritoConSensor.dblCatPlant', $obj->dblCatPlant)
-        ->whereBetween('tblProcessHipocloritoConSensor.datSampling', [$from, $to])
-        ->get();
+            ->join('tblCatPlant as t3', 't3.dblCatPlant', 'tblProcessHipocloritoConSensor.dblCatPlant')
+            ->leftJoin('catModeloBomba as t4', 't4.id', 't3.intModeloBomba')
+            ->where('tblProcessHipocloritoConSensor.dblCatPlant', $obj->dblCatPlant)
+            ->whereBetween('tblProcessHipocloritoConSensor.datSampling', [$from, $to])
+            ->get();
 
         $historialCarcamo = CarcamoBombeo::leftJoin('users as t2', 't2.id', 'tblProcessCarcamoBombeo.intUser')
-        ->join('tblCatPlant as t3', 't3.dblCatPlant', 'tblProcessCarcamoBombeo.dblCatPlant')
-        ->leftJoin('catModeloBomba as t4', 't4.id', 't3.intModeloBomba')
-        ->where('tblProcessCarcamoBombeo.dblCatPlant', $obj->dblCatPlant)
-        ->whereBetween('tblProcessCarcamoBombeo.datSampling', [$from, $to])
-        ->get()
-        ->map(function($obj){
-            $nivelAgua = floatval($obj->indicator1 ?? 0);
-            $alerta = '';
-            if ($nivelAgua > 2.32) {
-                $alerta = 'Nivel del agua máximo detener la alimentación.';
-            }elseif ($nivelAgua <= 2.32 AND $nivelAgua >= 2.09) {
-                $alerta = 'Nivel del agua alto aumentar la frecuencia de Bomba de descarga.';
-            }elseif ($nivelAgua <= 2.09 AND $nivelAgua >= 1.20) {
-                $alerta = 'Nivel del agua correcto para la operación.';
-            }elseif ($nivelAgua <= 1.20 AND $nivelAgua >= 0.97) {
-                $alerta = 'Nivel del agua bajo disminuir la frecuencia de la bomba de descarga.';
-            }elseif ($nivelAgua < 0.97) {
-                $alerta = 'Nivel del agua mínimo detener bomba de descarga.';
-            }
-            $obj->alerta = $alerta;
-            return $obj;
-        });
+            ->join('tblCatPlant as t3', 't3.dblCatPlant', 'tblProcessCarcamoBombeo.dblCatPlant')
+            ->leftJoin('catModeloBomba as t4', 't4.id', 't3.intModeloBomba')
+            ->where('tblProcessCarcamoBombeo.dblCatPlant', $obj->dblCatPlant)
+            ->whereBetween('tblProcessCarcamoBombeo.datSampling', [$from, $to])
+            ->get()
+            ->map(function ($obj) {
+                $nivelAgua = floatval($obj->indicator1 ?? 0);
+                $alerta = '';
+                if ($nivelAgua > 2.32) {
+                    $alerta = 'Nivel del agua máximo detener la alimentación.';
+                } elseif ($nivelAgua <= 2.32 and $nivelAgua >= 2.09) {
+                    $alerta = 'Nivel del agua alto aumentar la frecuencia de Bomba de descarga.';
+                } elseif ($nivelAgua <= 2.09 and $nivelAgua >= 1.20) {
+                    $alerta = 'Nivel del agua correcto para la operación.';
+                } elseif ($nivelAgua <= 1.20 and $nivelAgua >= 0.97) {
+                    $alerta = 'Nivel del agua bajo disminuir la frecuencia de la bomba de descarga.';
+                } elseif ($nivelAgua < 0.97) {
+                    $alerta = 'Nivel del agua mínimo detener bomba de descarga.';
+                }
+                $obj->alerta = $alerta;
+                return $obj;
+            });
 
         $historialSedimentador = Sedimentador::leftJoin('users as t2', 't2.id', 'tblProcessSedimentador.intUser')
-        ->join('tblCatPlant as t3', 't3.dblCatPlant', 'tblProcessSedimentador.dblCatPlant')
-        ->leftJoin('catModeloBomba as t4', 't4.id', 't3.intModeloBomba')
-        ->where('tblProcessSedimentador.dblCatPlant', $obj->dblCatPlant)
-        ->whereBetween('tblProcessSedimentador.datSampling', [$from, $to])
-        ->get()
-        ->map(function($obj){
-            $nivelAgua = floatval($obj->indicator1 ?? 0);
-            $alerta = '';
-            if ($nivelAgua > 5.2) {
-                $alerta = 'Nivel del agua máximo detener la alimentación.';
-            }elseif ($nivelAgua <= 5.2 AND $nivelAgua >= 1.12) {
-                $alerta = 'Nivel del agua adecuado para la sedimentación.';
-            }elseif ($nivelAgua < 1.12) {
-                $alerta = 'Nivel del agua mínimo detener bomba de descarga.';
-            }
-            $obj->alerta = $alerta;
-            return $obj;
-        });
+            ->join('tblCatPlant as t3', 't3.dblCatPlant', 'tblProcessSedimentador.dblCatPlant')
+            ->leftJoin('catModeloBomba as t4', 't4.id', 't3.intModeloBomba')
+            ->where('tblProcessSedimentador.dblCatPlant', $obj->dblCatPlant)
+            ->whereBetween('tblProcessSedimentador.datSampling', [$from, $to])
+            ->get()
+            ->map(function ($obj) {
+                $nivelAgua = floatval($obj->indicator1 ?? 0);
+                $alerta = '';
+                if ($nivelAgua > 5.2) {
+                    $alerta = 'Nivel del agua máximo detener la alimentación.';
+                } elseif ($nivelAgua <= 5.2 and $nivelAgua >= 1.12) {
+                    $alerta = 'Nivel del agua adecuado para la sedimentación.';
+                } elseif ($nivelAgua < 1.12) {
+                    $alerta = 'Nivel del agua mínimo detener bomba de descarga.';
+                }
+                $obj->alerta = $alerta;
+                return $obj;
+            });
         // dd($historialCarcamo);
 
         $incidences = Incidence::where('dblCatPlant', $obj->dblCatPlant)->get();
@@ -369,11 +373,23 @@ class PlantController extends Controller
         $to = ($request->to) ? $request->to : 'na';
         // dd($from,$to);
         $request->session()->flash('message', 'Registro actualizado!');
-        return redirect()->route('plant.edit', ['id'=>$request->dblCatPlant,'from'=>$from,'to'=>$to]);
+        return redirect()->route('plant.edit', ['id' => $request->dblCatPlant, 'from' => $from, 'to' => $to]);
     }
 
     public function destroy($dblCatTypeUser)
     {
 
+    }
+
+    public function downloadQr($id)
+    {
+        $plant = CatPlant::find($id);
+        // ? Store QR code
+        $fileName = $plant->strName . '-qrcode.svg';
+        $fileDest = storage_path('app/public/' . $fileName);
+        $url = $plant->dblCatPlant;
+        QrCode::format('png')->size(400)->generate($url, $fileDest);
+        // ? download QR
+        return (response()->download($fileDest));
     }
 }

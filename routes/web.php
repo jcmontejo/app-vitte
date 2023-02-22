@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
 });
 #Test routes
-Route::get('demo', function(){
+Route::get('demo', function () {
     return view('layouts.admin');
 });
 #Login routes
@@ -53,6 +53,8 @@ Route::post('/plant/plant/create', [PlantController::class, 'store']);
 Route::put('/plant/plant/edit', [PlantController::class, 'update']);
 Route::get('/plant/plant/{id}/edit/from/{from?}/to/{to?}', [PlantController::class, 'edit'])->name('plant.edit');
 Route::put('/plant/plant/{id}', [PlantController::class, 'destroy']);
+
+Route::get('/plant/plant/downloadQr/{id}', [PlantController::class, 'downloadQr']);
 
 ##User
 Route::get('/user/user', [UserController::class, 'index'])->name('user.index');
