@@ -62,7 +62,8 @@
             <div id="cuatro" class="accordion-collapse collapse" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    @include('Plant.Catalogs.includeFiltracion')
+                    {{-- @include('Plant.Catalogs.includeFiltracion') --}}
+                        <div id="mostrar-filtros"></div>
                 </div>
             </div>
         </div>

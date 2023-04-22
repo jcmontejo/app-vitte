@@ -392,4 +392,28 @@ class PlantController extends Controller
         // ? download QR
         return (response()->download($fileDest));
     }
+
+    public function getFilters($dblCatPlant)
+    {
+        $objFiltros  = Filtro::with('historial')->where('dblCatPlant', $dblCatPlant)->get();
+        $params = [
+            'objFiltros',
+        ];
+        return view('Plant.Catalogs.includeFiltracion', compact($params));
+    }
+
+    public function storeFilters(Request $request)
+    {
+        // dd($request->all());
+        $intFiltro = json_decode($request->intFiltro, true) ?? [];
+        $strNombreFiltro = json_decode($request->strNombreFiltro, true) ?? [];
+        $oldFiltros = Filtro::where('dblCatPlant', $request->dblCatPlant)->whereNotIn('id', $intFiltro)->delete();
+        foreach ($strNombreFiltro as $key => $value) {
+            $filtro = Filtro::findOrNew($intFiltro[$key]);
+            $filtro->strNombre = $strNombreFiltro[$key];
+            $filtro->dblCatPlant = $request->dblCatPlant;
+            $filtro->save();
+        }
+        return response()->json('success');
+    }
 }

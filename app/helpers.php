@@ -124,6 +124,23 @@ function getTotalPlant()
 
 function getOperadores()
 {
-    $operadores = User::where('dblCatTypeUser',1)->get();
+    $operadores = User::where('dblCatTypeUser', 1)->get();
     return count($operadores);
+}
+
+function alarmaFiltracion($presionInicial,$presionFinal)
+{
+    $mensaje = '';
+    $diferenciaPresion = $presionInicial - $presionFinal; // Calculamos la diferencia de presión
+    if ($diferenciaPresion < 0.1) {
+        // El filtro está limpio
+        $mensaje = 'El filtro está limpio';
+    } elseif ($diferenciaPresion > 0.6) {
+        // El filtro está sucio y se debe iniciar el procedimiento de lavado
+        $mensaje = 'El filtro está sucio y se debe iniciar el procedimiento de lavado';
+    } else {
+        // La diferencia de presión está dentro del rango aceptable
+        $mensaje = 'La diferencia de presión está dentro del rango aceptable';
+    }
+    return $mensaje;
 }

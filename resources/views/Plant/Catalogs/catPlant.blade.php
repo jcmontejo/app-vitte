@@ -6,7 +6,7 @@
     <form action="/plant/plant/{{ $obj->getUrl() }}" method="POST">
         @csrf
         {{ method_field($obj->getMethod()) }}
-        <input type="hidden" name="dblCatPlant" class="form-control" value="{{ $obj->dblCatPlant }}" />
+        <input type="hidden" name="dblCatPlant" id="dblCatPlant" class="form-control" value="{{ $obj->dblCatPlant }}" />
         <div class="row">
             <div class="col-md-3 col-xl-2">
                 <div class="card">
@@ -227,7 +227,24 @@
         </div>
     </form>
     @include('Plant.Catalogs.mdlHistoryIncidences')
+@endsection
+{{-- Styles Section --}}
+@section('styles')
+    <link href="{{ asset('plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .none {
+            display: none;
+        }
+
+        .block {
+            display: block;
+        }
+    </style>
+@endsection
+{{-- Scripts Section --}}
+@section('js')
     <script>
+        var _tableFiltros = [];
         document.addEventListener("DOMContentLoaded", function() {
             // Datatables Responsive
             $("#tblBombaPozo").DataTable({
@@ -238,7 +255,7 @@
                 dom: 'Bfrtip',
                 buttons: [
                     'excel', 'pdf'
-                ],
+                ]
             });
             $("#tblOxidacion").DataTable({
                 responsive: true,
@@ -310,90 +327,69 @@
                     'excel', 'pdf'
                 ]
             });
+            // _tableFiltros = $("#tblFiltros").DataTable({
+            //     searching: false,
+            //     paging: false,
+            //     info: false,
+            //     columnDefs: [{
+            //             targets: 'no-sort',
+            //             orderable: false
+            //         },
+            //         {
+            //             targets: 'no-search',
+            //             searchable: false
+            //         }
+            //     ]
+            // });
             $('.select2').select2();
         });
     </script>
-@endsection
-{{-- Styles Section --}}
-@section('styles')
-    <link href="{{ asset('plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <style>
-        .none {
-            display: none;
-        }
-
-        .block {
-            display: block;
-        }
-    </style>
-@endsection
-{{-- Scripts Section --}}
-@section('scripts')
     {{-- vendors --}}
     <script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js_system/plants.js') }}"></script>
     <script>
-        let _tableFiltros = [];
-        let tblBombaPozo = [];
-        let tblOxidacion = [];
         $(document).ready(function() {
-            initDatatables();
             $(this).on('click', '.btn-add-filtro', addFiltro);
             $(this).on('click', '.btn-delete-filtro', deleteFiltro);
+            obtenerFiltros();
         })
 
-        function initDatatables() {
-            _tableFiltros = $("#tblFiltros").DataTable({
-                "dom": '<"row"<"text-left col-4"f><"text-right col-8">>lt<"bottom"i><"clear">',
-                "language": {
-                    search: '<i class="fa fa-filter" aria-hidden="true"></i>',
-                    searchPlaceholder: `Buscar`,
+        function obtenerFiltros() {
+            var dblCatPlant = document.getElementById('dblCatPlant');
+            // Muestra el loader cuando sea necesario
+            $.ajax({
+                url: '/plantas/obtener/filtros/' + dblCatPlant.value,
+                type: 'GET',
+                success: function(response) {
+                    //Manejar la respuesta
+                    $('#mostrar-filtros').html(response);
+                    _tableFiltros = $("#tblFiltros").DataTable({
+                        searching: false,
+                        paging: false,
+                        info: false,
+                        columnDefs: [{
+                                targets: 'no-sort',
+                                orderable: false
+                            },
+                            {
+                                targets: 'no-search',
+                                searchable: false
+                            }
+                        ]
+                    });
                 },
-                scrollY: '60vh',
-                scrollX: '1140px',
-                "bPaginate": false,
-                paging: false,
-                ordering: false,
-                info: false,
+                error: function(xhr, status, error) {
+                    // Manejar el error
+                    console.log(error);
+                }
             });
-
-            tblBombaPozo = $("#tblBombaPozo").DataTable({
-                "dom": '<"row"<"text-left col-4"f><"text-right col-8">>lt<"bottom"i><"clear">',
-                "language": {
-                    search: '<i class="fa fa-filter" aria-hidden="true"></i>',
-                    searchPlaceholder: `Buscar`,
-                },
-                scrollY: '20vh',
-                scrollX: '1140px',
-                "bPaginate": false,
-                paging: false,
-                ordering: false,
-                info: false,
-
-            });
-
-            tblOxidacion = $("#tblOxidacion").DataTable({
-                "dom": '<"row"<"text-left col-4"f><"text-right col-8">>lt<"bottom"i><"clear">',
-                "language": {
-                    search: '<i class="fa fa-filter" aria-hidden="true"></i>',
-                    searchPlaceholder: `Buscar`,
-                },
-                scrollY: '20vh',
-                scrollX: '1140px',
-                "bPaginate": false,
-                paging: false,
-                ordering: false,
-                info: false,
-
-            });
-
         }
+
 
         function addFiltro() {
             let intContador = _tableFiltros.rows().count();
             let intId = parseInt(intContador) + 1;
-            let rowNode = _tableFiltros
-                .row.add(
+            let rowNode = _tableFiltros.row.add(
                     [
                         getNombre(),
                         getDeleteButton(),
@@ -404,7 +400,7 @@
         }
 
         function getNombre() {
-            let str = `<input type="hidden" name="intFiltro[]"><input id="strNombreFiltro" type="text" name="strNombreFiltro[]" class="form-control strNombreFiltro"
+            let str = `<input type="hidden" class="intFiltro" name="intFiltro[]"><input type="text" name="strNombreFiltro[]" class="form-control strNombreFiltro"
         placeholder="Introduce nombre del filtro">`;
             return str;
         }
@@ -416,20 +412,110 @@
         }
 
         function deleteFiltro() {
+            console.log('delete filter')
             let tr = $(this).closest('tr');
-            Swal.fire({
-                title: `¿Esta seguro?`,
-                text: `No se podrá revertir!`,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: `Sí, eliminar!`,
-                cancelButtonText: `No, cancelar!`,
-                reverseButtons: true
-            }).then(function(result) {
-                if (result.value) {
-                    _tableFiltros.row(tr).remove().draw();
+            swal({
+                    title: "¿Estás seguro?",
+                    text: "Una vez eliminado, no se podrá recuperar el registro",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        _tableFiltros.row(tr).remove().draw();
+                        swal("Registro eliminado correctamente", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("La operación ha sido cancelada");
+                    }
+                });
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            // Asignar la función de validación al evento "submit" del formulario
+            $(this).on('click', '.btn-save-filter', storeFilters);
+        });
+
+        function storeFilters() {
+            var formulario = document.getElementById('frmFilters');
+            event.preventDefault(); // Evita que el formulario se envíe automáticamente
+            if (validarFormulario()) {
+                // Obtener valores de los inputs de la tabla dinámica
+                var intFiltro = [];
+                var strNombreFiltro = [];
+                $('.intFiltro').each(function() {
+                    intFiltro.push($(this).val());
+                });
+                $('.strNombreFiltro').each(function() {
+                    strNombreFiltro.push($(this).val());
+                });
+                // Crear objeto FormData
+                var formData = new FormData();
+                var dblCatPlant = document.getElementById('dblCatPlant');
+                formData.append('dblCatPlant', dblCatPlant.value);
+                formData.append('intFiltro', JSON.stringify(intFiltro));
+                formData.append('strNombreFiltro', JSON.stringify(strNombreFiltro));
+                $.ajax({
+                    url: `/plantas/filtros/guardar`, // URL de la página que procesará el formulario
+                    type: 'POST', // método de envío del formulario
+                    data: formData, // datos que se enviarán al servidor
+                    contentType: false,
+                    processData: false,
+                    success: function(respuesta) {
+                        // código a ejecutar si la petición es exitosa
+                        console.log(respuesta);
+                        // Ocultar el modal
+                        $("#mdlFilters").modal("hide");
+                        $('.modal').on('hidden.bs.modal', function(e) {
+                            $('.modal-backdrop').remove();
+                        });
+                        obtenerFiltros();
+                    },
+                    error: function(xhr, status, error) {
+                        // código a ejecutar si hay algún error
+                        console.log(error);
+                    }
+                });
+            }
+        }
+
+        // Función de validación
+        function validarFormulario() {
+            let valid = true;
+            _tableFiltros.rows().every(function(index) {
+                if (valid) {
+                    valid = validateFilter(index)
+                }
+            });
+            if (!valid) {
+                event.preventDefault();
+            }
+            // Si todos los campos están llenados correctamente, se puede enviar el formulario
+            return true;
+        }
+
+        function validateFilter(tr_index) {
+            let tr_filter = _tableFiltros.row(tr_index).node();
+            let strNombreFiltro = $(tr_filter).find(".strNombreFiltro").eq(0).val().trim();
+
+            let valid = true;
+            let message = '';
+            if (strNombreFiltro == '') {
+                message = `El campo nombre es obligatorio.`;
+                valid = false;
+            }
+            if (!valid) {
+                alert(message);
+            }
+            return valid;
         }
     </script>
 @endsection
