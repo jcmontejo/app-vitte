@@ -2,7 +2,7 @@
 @section('content')
     <h1 class="h3 mb-3"><strong>Panel</strong> Principal</h1>
 
-    <div class="row">
+    <div class="row d-none">
         <div class="col-xl-6 col-xxl-5 d-flex">
             <div class="w-100">
                 <div class="row">

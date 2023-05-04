@@ -32,7 +32,7 @@
 
 <body>
     <div class="wrapper">
-        @include('layouts.partials._sidebar')
+        @include('layouts.partials._sidebarNew')
         <div class="main">
             @include('layouts.partials._navbar')
             <main class="content">
