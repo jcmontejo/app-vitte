@@ -86,6 +86,8 @@
     <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{ asset('codebase/dhtmlxgantt.js?v=8.0.1') }}"></script>
+    <link rel="stylesheet" href="{{ asset('codebase/dhtmlxgantt.css?v=8.0.1') }}">
     @yield('js')
 </body>
 </html>

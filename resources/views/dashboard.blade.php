@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
     <h1 class="h3 mb-3"><strong>Panel</strong> Principal</h1>
-
+    <div id="gantt_here" style='width:100%; height:100%;'></div>
     <div class="row d-none">
         <div class="col-xl-6 col-xxl-5 d-flex">
             <div class="w-100">
@@ -96,6 +96,14 @@
                 </div>
             </div>
         </div>
+    @endsection
+    @section('js')
+    <script src="{{ asset('common/testdata.js') }}"></script>
+    <script>
+        gantt.config.touch = "force";
+        gantt.init("gantt_here");
+        gantt.parse(demo_tasks);
+    </script>
     @endsection
     <script>
         document.addEventListener("DOMContentLoaded", function() {
