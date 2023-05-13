@@ -44,7 +44,8 @@ Route::get('/type_user/type_user/{id}/edit', [TypeUserController::class, 'edit']
 Route::put('/type_user/type_user/{id}', [TypeUserController::class, 'destroy']);
 
 ##Plant
-Route::get('/plant/plant', [PlantController::class, 'index'])->name('plant.index');
+Route::get('/plantas/plantas', [PlantController::class, 'index'])->name('plant.index');
+Route::get('/plantas/data/', [PlantController::class, 'getData']);
 Route::post('/plant/plant', [PlantController::class, 'index']);
 
 Route::get('/plant/plant/create', [PlantController::class, 'create']);

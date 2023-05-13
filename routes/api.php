@@ -49,6 +49,10 @@ Route::group([
         Route::post('plantas/guardar/carcamoBombeo', [ApiController::class, 'storeCarcamoBombeo']);
         Route::post('plantas/guardar/sedimentador', [ApiController::class, 'storeSedimentador']);
 
+        // Points
+        Route::get('user-points', [ApiController::class, 'getUserPoints']);
+        Route::post('evidence', [EvidenceController::class, 'storeEvidence']);
+
 
         Route::post('plantas/guardar/incidencia', [ApiController::class, 'storeIncidencia']);
     });

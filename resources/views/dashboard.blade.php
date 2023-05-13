@@ -1,120 +1,49 @@
-@extends('layouts.admin')
+@extends('layouts._plantas')
 @section('content')
-    <h1 class="h3 mb-3"><strong>Panel</strong> Principal</h1>
+<div class="d-sm-flex align-items-center justify-content-between mt-2 mb-2 w-100">
+    <h1 class="h3 text-gray-800 m-0"><i class="fas fa-fw fa-tachometer-alt"></i> Información General<br>
+        <font class="text-cCases text-bold" style="font-size:15px;"><a id="mTitle" style="font-size:15px;">Todas las
+                Plantas</a></font>
+    </h1>
+    <div class="text-right">
+        <font class="text-xs m-0 p-0">
+            <p class="m-0">**Actualizado: {{ date('d-m-Y') }}</p>
+        </font>
+    </div>
+</div>
+@role('admin-otra-plataforma')
+    {{-- Código HTML a mostrar si el usuario tiene el rol 'admin-plantas' --}}
     <div id="gantt_here" style='width:100%; height:100%;'></div>
-    <div class="row d-none">
-        <div class="col-xl-6 col-xxl-5 d-flex">
-            <div class="w-100">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h5 class="card-title">Total Plantas Registradas</h5>
-                                    </div>
+@endrole
 
-                                    <div class="col-auto">
-                                        <div class="stat text-primary">
-                                            <i class="align-middle" data-feather="truck"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h1 class="mt-1 mb-3">{{ getTotalPlant() }}</h1>
-                                {{-- <div class="mb-0">
-                                <span class="text-danger"> <i
-                                        class="mdi mdi-arrow-bottom-right"></i> {{ getTotalPlant() }} </span>
-                                <span class="text-muted">Since last week</span>
-                            </div> --}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h5 class="card-title">Operadores Registrados</h5>
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="stat text-primary">
-                                            <i class="align-middle" data-feather="users"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h1 class="mt-1 mb-3">{{ getOperadores() }}</h1>
-                                {{-- <div class="mb-0">
-                                <span class="text-success"> <i
-                                        class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                <span class="text-muted">Since last week</span>
-                            </div> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-lg-8 col-xxl-9 d-flex">
-                <div class="card flex-fill">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Asistencia de Operadores en plantas</h5>
-                    </div>
-                    <table class="table table-hover my-0" id="tblAsistencias">
-                        <thead>
-                            <tr>
-                                <th>Operador</th>
-                                <th class="d-none d-xl-table-cell">Fecha</th>
-                                <th class="d-none d-xl-table-cell">Hora</th>
-                                <th>Planta</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($asistencias as $item)
-                                <tr>
-                                    <td>{{ $item->name }} {{ $item->strLastName }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ EnglishDateTimeFormat($item->created_at) }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ TimeFormat($item->created_at) }}</td>
-                                    <td><span class="badge bg-success">{{ $item->strName }}</span></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 col-xxl-3 d-flex">
-                <div class="card flex-fill w-100">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Uso de App Movil</h5>
-                    </div>
-                    <div class="card-body d-flex w-100">
-                        <div class="align-self-center chart chart-lg">
-                            <canvas id="chartjs-dashboard-bar"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endsection
-    @section('js')
-    <script src="{{ asset('common/testdata.js') }}"></script>
+@role('admin-plantas')
+    {{-- Código HTML a mostrar si el usuario tiene el rol 'admin-plantas' --}}
+    <div class="row">
+    </div>
+@endrole
+@endsection
+@section('js')
+<script src="{{ asset('common/testdata.js') }}"></script>
+@role('admin-otra-plataforma')
     <script>
         gantt.config.touch = "force";
         gantt.init("gantt_here");
         gantt.parse(demo_tasks);
     </script>
-    @endsection
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            Datatables Responsive
-            $("#tblAsistencias").DataTable({
-                responsive: true,
-                dom: 'Bfrtip',
-                order: [[1, 'desc']],
-                buttons: [
-                    'excel', 'pdf'
-                ]
-            });
+@endrole
+@endsection
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        Datatables Responsive
+        $("#tblAsistencias").DataTable({
+            responsive: true,
+            dom: 'Bfrtip',
+            order: [
+                [1, 'desc']
+            ],
+            buttons: [
+                'excel', 'pdf'
+            ]
         });
-    </script>
+    });
+</script>

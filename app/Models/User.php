@@ -10,9 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use HasRoles;
     use HasFactory, Notifiable, HasApiTokens;
 
     /**
@@ -70,5 +72,11 @@ class User extends Authenticatable
     public function type_user(): BelongsTo
     {
         return $this->belongsTo(CatTypeUser::class,'dblCatTypeUser','dblCatTypeUser');
+    }
+
+
+    public function type()
+    {
+        return $this->belongsTo(CatTypeUser::class, 'dblCatTypeUser');
     }
 }

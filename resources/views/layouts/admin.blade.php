@@ -32,7 +32,12 @@
 
 <body>
     <div class="wrapper">
+        @role('admin-otra-plataforma')
         @include('layouts.partials._sidebarNew')
+        @endrole
+        @role('admin-plantas')
+        @include('layouts.partials._sidebar')
+        @endrole
         <div class="main">
             @include('layouts.partials._navbar')
             <main class="content">

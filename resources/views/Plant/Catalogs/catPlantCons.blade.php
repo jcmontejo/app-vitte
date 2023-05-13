@@ -1,56 +1,245 @@
 {{-- Extends layout --}}
-@extends('layouts.admin')
+@extends('layouts._plantas')
 {{-- Content --}}
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            @if ($message)
-                <div class="alert alert-success system-message" role="alert">
-                    {{ $message }}
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Container-->
+    <div id="indexResource" class="container-xxl">
+        <!--begin::Card-->
+        <div class="card">
+            <!--begin::Card header-->
+            <div class="card-header border-0 pt-6">
+                <!--begin::Card title-->
+                <div class="card-title">
                 </div>
-            @endif
-            <h5 class="card-title">Plantas Potabilizadoras</h5>
-            <a href="{{ url('/plant/plant/create') }}" class="btn btn-primary float-end mt-n1"><i class="fas fa-plus"></i> Nueva Planta</a>
-        </div>
-        <div class="card-body">
-            <table id="tblPlantas" class="table table-striped" style="width:100%">
-                <thead>
-                    <tr>
-                    <tr>
-                        <th class="fit-column thColor">Acciones</th>
-                        <th class="fit-column thColor">ID</th>
-                        <th class="fit-column thColor">Nombre</th>
-                        <th class="fit-column thColor">Dirección</th>
+                <div class="card-toolbar">
+                    <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                        <a href="javascript:void(0)" onclick="_resource.create();" type="button"
+                            class="btn button-primary" data-bs-target="#kt_modal_add_user">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                            <i class="fas fa-plus"></i>
+                            Crear Planta
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body pt-0">
+                <!--begin::Table-->
+                <table class="table align-middle table-row-dashed fs-6 gy-5" id="tableResource">
+                    <!--begin::Table head-->
+                    <thead class="table-title">
+                        <!--begin::Table row-->
+                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+                        <th></th>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
                     </tr>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($objs as $item)
-                        <tr>
-                            <td class="text-center">
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a href="/plant/plant/{{ $item->dblCatPlant }}/edit/from/na/to/na"><button class="btn btn-success"><i
-                                                class="fa-solid fa-pen-to-square"></i></button></a>
-                                    <a class="delete" value="{{ $item->dblCatPlant }}"
-                                        href="/plant/plant/{{ $item->dblCatPlant }}/edit"><button class="btn btn-danger"><i
-                                                class="fa-solid fa-trash"></i></button></a>
-                                </div>
-                            </td>
-                            <td style='text-align:left'>{{ PlantSerial($item->dblCatPlant) }}</td>
-                            <td style='text-align:left'>{{ $item->strName }}</td>
-                            <td style='text-align:left'>{{ $item->strAddress }}</td>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        <!--end::Table row-->
+                    </thead>
+
+                </table>
+                <!--end::Table-->
+            </div>
+            <!--end::Card body-->
         </div>
+        <!--end::Card-->
     </div>
+    @include('Plant.Catalogs.edit')
+    @include('Plant.Catalogs.create')
+</div>
 @endsection
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Datatables Responsive
-        $("#tblPlantas").DataTable({
-            responsive: true
+@section('js')
+    <!-- Agrega un script para inicializar Datatables -->
+    <script>
+        var _resource = {
+            initialize: function() {
+                $('#tableResource').DataTable({
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json" // Cambia "es_es" por el código de idioma que desees
+                    },
+                    lengthChange: true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ url('/plantas/data') }}",
+                    columns: [{
+                            data: 'action',
+                            name: 'action'
+                        },
+                        {
+                            data: 'dblCatPlant',
+                            name: 'dblCatPlant'
+                        },
+                        {
+                            data: 'strName',
+                            name: 'strName'
+                        },
+                        {
+                            data: 'strAddress',
+                            name: 'strAddress'
+                        },
+                    ]
+                });
+            },
+
+            create: function() {
+                document.getElementById("formResource").reset();
+                $("#indexResource").css('display', 'none');
+                $("#createResource").css('display', 'block');
+            },
+
+            save: function() {
+                var strName = $("#formResource input[name='strName']").val();
+                var strLabel = $("#formResource input[name='strLabel']").val();
+
+                var route = "{{ url('/studies/store') }}";
+                var responseValidate = _resource.validateForm(1);
+                if (responseValidate) {
+                    $.ajax({
+                        url: route,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            strName: strName,
+                            strLabel: strLabel,
+                        },
+                        success: function() {
+                            Notiflix.Notify.success('Parametro agregado correctamente');
+                            _resource.cancel();
+                            _resource.reload();
+                            _resource.initialize();
+                        },
+                        error: function(data) {
+                            Notiflix.Notify.failure('Opss! algo salio mal.');
+                        }
+                    });
+                }
+            },
+
+            reload: function() {
+                var table = $("#tableResource").DataTable();
+                table.destroy();
+            },
+
+            delete: function(id) {
+                var route = "/studies/delete/" + id;
+                Notiflix.Confirm.show(
+                    'Parametros',
+                    '¿Esta seguro de eliminar este Parametro?',
+                    'Si',
+                    'No',
+                    () => {
+                        $.ajax({
+                                url: route,
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                type: 'DELETE',
+                                dataType: 'json',
+                                data: {
+                                    id: id
+                                },
+                            })
+                            .done(function(response) {
+                                Notiflix.Notify.success('Parametro eliminado correctamente');
+                                _resource.reload();
+                                _resource.initialize();
+                            })
+                            .fail(function() {
+                                Notiflix.Notify.failure('Opss! algo salio mal.');
+                            });
+                    },
+                    () => {
+                        Notiflix.Notify.warning('Petición cancelada');
+                    }, {},
+                );
+            },
+
+            cancel: function() {
+                $("#indexResource").css('display', 'block');
+                $("#createResource").css('display', 'none');
+                $("#editResource").css('display', 'none');
+            },
+
+            edit: function(id) {
+                $("#indexResource").css('display', 'none');
+                $("#editResource").css('display', 'block');
+                _resource.getResource(id);
+            },
+
+            getResource: function(id) {
+                var route = "/studies/edit/" + id;
+                Notiflix.Loading.dots();
+                $.get(route, function(data) {
+                    Notiflix.Loading.remove();
+                    $("#formEditResource input[name='strName']").val(data.strName);
+                    $("#formEditResource input[name='strLabel']").val(data.strLabel);
+                    $(".btn-update-resource").attr('onclick', '_resource.update(' + data.id + ');');
+                });
+            },
+
+            update: function(id) {
+                var strName = $("#formEditResource input[name='strName']").val();
+                var strLabel = $("#formEditResource input[name='strLabel']").val();
+
+                var route = "{{ url('/studies/update') }}/" + id;
+                var responseValidate = _resource.validateForm(2);
+                if (responseValidate) {
+                    $.ajax({
+                        url: route,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'PUT',
+                        dataType: 'json',
+                        data: {
+                            strName: strName,
+                            strLabel: strLabel,
+                        },
+                        success: function() {
+                            Notiflix.Notify.success('Parametro editado correctamente');
+                            _resource.cancel();
+                            _resource.reload();
+                            _resource.initialize();
+                        },
+                        error: function(data) {
+                            Notiflix.Notify.failure('Opss! algo salio mal.');
+                        }
+                    });
+                }
+            },
+
+            validateForm: function(type) {
+                let valid = true;
+                if (type == 1) {
+                    var strName = $("#formResource input[name='strName']").val();
+                    var strLabel = $("#formResource input[name='strLabel']").val();
+                } else {
+                    var strName = $("#formEditResource input[name='strName']").val();
+                    var strLabel = $("#formEditResource input[name='strLabel']").val();
+                }
+
+                if (strName === '') {
+                    valid = false;
+                    message = 'El campo nombre es requerido.';
+                } else if (strLabel === '') {
+                    valid = false;
+                    message = 'El campo etiqueta es requerido.';
+                }
+                if (!valid) {
+                    Notiflix.Report.failure('Error', message, 'Cerrar');
+                }
+                return valid;
+            },
+
+        }
+        $(document).ready(function() {
+            _resource.initialize();
         });
-    });
-</script>
+    </script>
+@endsection

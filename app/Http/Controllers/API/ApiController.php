@@ -5,10 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Asistencia;
 use App\Models\CarcamoBombeo;
+use App\Models\Evidence;
 use App\Models\Filtro;
 use App\Models\HipocloritoConSensor;
 use App\Models\MezcladorEstatico;
 use App\Models\OxidacionDesinfeccion;
+use App\Models\PhotoEvidence;
 use App\Models\Plant\Catalogs\CatPlant;
 use App\Models\Plant\Catalogs\Decloracion;
 use App\Models\Plant\Catalogs\Desinfeccion;
@@ -17,8 +19,10 @@ use App\Models\Plant\Catalogs\Incidence;
 use App\Models\Plant\Catalogs\Osmosis;
 use App\Models\Plant\Catalogs\Oxidacion;
 use App\Models\Plant\Catalogs\WellPump;
+use App\Models\Point;
 use App\Models\Sedimentador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ApiController extends Controller
 {
@@ -26,6 +30,50 @@ class ApiController extends Controller
     {
         $plantas = CatPlant::all();
         return response()->json($plantas);
+    }
+
+    public function getUserPoints(Request $request)
+    {
+        $userId = $request->intUser;
+        $points = Point::where('user_id', $userId)->get();
+
+        return response()->json($points);
+    }
+
+    public function store(Request $request)
+    {
+        // Obtener los datos de la solicitud
+        $pointId = $request->input('point_id');
+        $evidenceData = $request->input('evidence');
+        $photoData = $request->file('photo') ?? []; // Cambiar a file en lugar de input
+
+        // Guardar la evidencia
+        $evidence = new Evidence;
+        $evidence->point_id = $pointId;
+        $evidence->content = $evidenceData;
+        $evidence->save();
+
+        // Guardar las evidencias fotográficas
+        foreach ($photoData as $photo) {
+            // Generar un nombre único para el archivo
+            $filename = uniqid() . '.' . $photo->getClientOriginalExtension();
+
+            // Guardar el archivo en la carpeta "public/evidences"
+            $photo->storeAs('public/evidences', $filename);
+
+            // Crear el registro de la evidencia fotográfica
+            $photoEvidence = new PhotoEvidence;
+            $photoEvidence->evidence_id = $evidence->id;
+            $photoEvidence->photo_path = 'evidences/' . $filename; // Almacenar el path relativo
+            $photoEvidence->save();
+        }
+
+        // Actualizar el estado del punto a completado
+        $point = Point::find($pointId);
+        $point->status = 'completado';
+        $point->save();
+
+        return response()->json(['message' => 'Evidencia guardada y punto actualizado']);
     }
 
     public function getPlanta(Request $request)

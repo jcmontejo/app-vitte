@@ -4,7 +4,7 @@
             <span class="align-middle">CONTROL OPERATIVO</span>
         </a>
         <ul class="sidebar-nav">
-            {{-- <li class="sidebar-header">
+            <li class="sidebar-header">
                 Admin
             </li>
             <li class="sidebar-item active">
@@ -17,29 +17,12 @@
                 <a class="sidebar-link" href="pages-profile.html">
                     <i class="align-middle" data-feather="user"></i> <span class="align-middle">Perfil</span>
                 </a>
-            </li> --}}
-            <li class="sidebar-item">
-                <a data-bs-target="#ui" data-bs-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase align-middle"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg> <span class="align-middle">UI Elements</span>
-                </a>
-                <ul id="ui" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" style="">
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-alerts.html">Alerts</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-buttons.html">Buttons</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-cards.html">Cards</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-general.html">General</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-grid.html">Grid</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-modals.html">Modals</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-offcanvas.html">Offcanvas <span class="sidebar-badge badge bg-primary">Pro</span></a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-placeholders.html">Placeholders <span class="sidebar-badge badge bg-primary">Pro</span></a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-tabs.html">Tabs <span class="sidebar-badge badge bg-primary">Pro</span></a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-typography.html">Typography</a></li>
-                </ul>
             </li>
-            {{-- <li class="sidebar-header">
+            <li class="sidebar-header">
                 Plantas y Procesos
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ url('/plant/plant') }}">
+                <a class="sidebar-link" href="{{ url('/plantas/plantas') }}">
                     <i class="align-middle" data-feather="navigation"></i> <span class="align-middle">Plantas
                         potabilizadoras</span>
                 </a>
@@ -62,9 +45,9 @@
                 <a class="sidebar-link" href="{{ url('/user/user') }}">
                     <i class="align-middle" data-feather="users"></i> <span class="align-middle">Usuarios</span>
                 </a>
-            </li> --}}
+            </li>
         </ul>
-        {{-- <div class="sidebar-cta">
+        <div class="sidebar-cta">
             <div class="sidebar-cta-content">
                 <strong class="d-inline-block mb-2">Aplicación Movil</strong>
                 <div class="mb-3 text-sm">
@@ -76,6 +59,6 @@
                         class="btn btn-primary">Probar App</a>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
 </nav>

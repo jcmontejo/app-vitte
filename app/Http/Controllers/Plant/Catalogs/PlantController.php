@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Yajra\DataTables\DataTables;
 
 class PlantController extends Controller
 {
@@ -39,6 +40,33 @@ class PlantController extends Controller
         ];
         return view('Plant.Catalogs.catPlantCons', compact($params));
     }
+
+    public function getData()
+    {
+        $datas = CatPlant::all();
+
+        return DataTables::of($datas)
+            ->addColumn('action', function ($datas) {
+                $html = '<div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-h"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="#" class="dropdown-item edit-aval" onclick="_resource.edit(' .
+                    $datas->id .
+                    ')"><i class="fas fa-pencil-alt"></i> Editar</a>
+                    <a href="#" class="dropdown-item delete-aval" onclick="_resource.edit(' .
+                    $datas->id .
+                    ')"><i class="fas fa-trash-alt"></i>
+                        Eliminar</a>
+                </div>
+            </div>';
+                return $html;
+            })
+            ->make(true);
+    }
+
 
     public function create(Request $request)
     {
