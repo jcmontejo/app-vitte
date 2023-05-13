@@ -51,7 +51,7 @@ Route::group([
 
         // Points
         Route::get('user-points', [ApiController::class, 'getUserPoints']);
-        Route::post('evidence', [EvidenceController::class, 'storeEvidence']);
+        Route::post('evidence', [ApiController::class, 'storeEvidence']);
 
 
         Route::post('plantas/guardar/incidencia', [ApiController::class, 'storeIncidencia']);
