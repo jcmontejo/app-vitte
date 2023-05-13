@@ -50,7 +50,7 @@ Route::group([
         Route::post('plantas/guardar/sedimentador', [ApiController::class, 'storeSedimentador']);
 
         // Points
-        Route::get('user-points', [ApiController::class, 'getUserPoints']);
+        Route::post('user-points', [ApiController::class, 'getUserPoints']);
         Route::post('evidence', [ApiController::class, 'storeEvidence']);
 
 
