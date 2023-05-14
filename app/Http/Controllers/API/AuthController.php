@@ -83,7 +83,7 @@ class AuthController extends Controller
         $tokenId = Configuration::forUnsecuredSigner()->parser()->parse($request->access_token)->claims()->get('jti');
         $token = Token::find($tokenId);
         if (Carbon::parse($token->expires_at)->toDateTimeString() > Carbon::now()->toDateTimeString()) {
-            $token->expires_at = Carbon::now()->addDays(1);
+            $token->expires_at = Carbon::now()->addDays(5);
             $token->save();
             $userLogued = User::find($token["user_id"]);
             $imgProfile = '';
@@ -95,7 +95,6 @@ class AuthController extends Controller
                     'dblUser' => $userLogued->id,
                     'strUser' => $userLogued->email,
                     'strFullName' => $userLogued->name. ' '. $userLogued->strLastName,
-                    'strImgProfile' => $imgProfile,
                     'strEmail' => $userLogued->email,
                     'bitActive' => 1,
                 ],

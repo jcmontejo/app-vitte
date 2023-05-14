@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Evidence extends Model
 {
     use HasFactory;
-    protected $table = 'evidence';
+    protected $table = 'evidences';
 
     public function point()
     {

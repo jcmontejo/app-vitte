@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\Plant\Catalogs\PlantController;
+use App\Http\Controllers\Point\PointController;
 use App\Http\Controllers\TypeUser\Catalogs\TypeUserController;
 use App\Http\Controllers\User\Catalogs\UserController;
 use Illuminate\Support\Facades\Route;
@@ -69,3 +70,10 @@ Route::post('/user/user/create', [UserController::class, 'store']);
 Route::put('/user/user/edit', [UserController::class, 'update']);
 Route::get('/user/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/user/user/{id}', [UserController::class, 'destroy']);
+
+
+## Routes for platforms alternative
+Route::get('/puntos/puntos', [PointController::class, 'index'])->name('points.index');
+Route::get('/puntos/data/', [PointController::class, 'getData']);
+Route::any('/puntos/store', [PointController::class,'store']);
+Route::get('/puntos/edit/{id}', [PointController::class, 'edit']);

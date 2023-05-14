@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'auth',
 ], function () {
-    // Route::post('check', 'API\AuthController@checkTokenExpired');
+    Route::post('check', [AuthController::class, 'checkTokenExpired']);
     Route::post('login', [AuthController::class, 'login']);
 
     Route::group([

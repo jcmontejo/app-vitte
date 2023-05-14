@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Administración de Plantas</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Sistema de Control Operativo</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <!-- Google Font: Source Sans Pro -->
@@ -50,6 +51,10 @@
             background-color: #FFA500;
             border-color: #FFA500;
         }
+
+        .mandatory{
+            color: red;
+        }
     </style>
 </head>
 
@@ -62,7 +67,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
+                @role('admin-plantas')
                 @include('layouts.partials._navbar_plantas')
+                @endrole
+                @role('admin-otra-plataforma')
+                @include('layouts.partials._navbar_alterno')
+                @endrole
             </ul>
         </div>
     </nav>
