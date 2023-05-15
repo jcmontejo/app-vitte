@@ -76,6 +76,7 @@ class PointController extends Controller
          // Guardar la evidencia
         $evidence = new Evidence;
         $evidence->point_id = $point->id;
+        $evidence->content = '';
         $evidence->save();
 
         return response()->json('success');
