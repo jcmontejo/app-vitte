@@ -51,7 +51,7 @@ class ApiController extends Controller
         // Obtener los datos de la solicitud
         $pointId = $request->input('point_id');
         $evidenceData = $request->input('evidence');
-        $photoData = $request->file('photo') ?? []; // Cambiar a file en lugar de input
+        $base64Image = $request->file('photo'); // Obtén la cadena base64 de la imagen desde tu formulario o cualquier otra fuente de datos
 
         // Guardar la evidencia
         $evidence = new Evidence;
@@ -60,19 +60,17 @@ class ApiController extends Controller
         $evidence->save();
 
         // Guardar las evidencias fotográficas
-        foreach ($photoData as $photo) {
-            // Generar un nombre único para el archivo
-            $filename = uniqid() . '.' . $photo->getClientOriginalExtension();
+        // Decodifica la cadena base64 a datos binarios
+        $imageData = base64_decode($base64Image);
 
-            // Guardar el archivo en la carpeta "public/evidences"
-            $photo->storeAs('public/evidences', $filename);
+        // Genera un nombre único para la imagen
+        $fileName = uniqid('image_') . '.png';
 
-            // Crear el registro de la evidencia fotográfica
-            $photoEvidence = new PhotoEvidence;
-            $photoEvidence->evidence_id = $evidence->id;
-            $photoEvidence->photo_path = 'evidences/' . $filename; // Almacenar el path relativo
-            $photoEvidence->save();
-        }
+        // Crea una instancia de la clase Storage
+        $storage = Storage::disk('public'); // Cambia 'public' por el disco que deseas utilizar
+
+        // Guarda los datos binarios en el directorio 'storage'
+        $storage->put($fileName, $imageData);
 
         // Actualizar el estado del punto a completado
         $point = Point::find($pointId);
