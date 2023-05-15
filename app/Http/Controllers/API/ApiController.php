@@ -35,7 +35,13 @@ class ApiController extends Controller
     public function getUserPoints(Request $request)
     {
         $userId = $request->intUser;
-        $points = Point::where('user_id', $userId)->get();
+        $points = Point::where('user_id', $userId)
+        ->get()
+        ->map(function ($point){
+            $coordinates = (object)['latitude'=> $point->latitude, 'longitude'=> $point->longitude];
+            $point->coordinates = $coordinates;
+            return $point;
+        });
 
         return response()->json($points);
     }

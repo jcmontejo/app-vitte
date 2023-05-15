@@ -58,6 +58,9 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBytIUyY1c26GP7wpi0UZrkciY6FFxUO24&libraries=places"></script>
     <!-- Agrega un script para inicializar Datatables -->
     <script>
+        var baseUrl = "{{ url('/storage/') }}";
+    </script>
+    <script>
         var _resource = {
             initialize: function() {
                 $('#tableResource').DataTable({
@@ -113,7 +116,7 @@
                 var longitude = $("#formResource input[name='longitude']").val();
                 var user_id = $("#user_id").val();
                 var route = "{{ url('/puntos/store') }}";
-                var responseValidate = _resource.validateForm();
+                var responseValidate = _resource.validateForm(1);
                 if (responseValidate) {
                     $.ajax({
                         url: route,
@@ -206,76 +209,49 @@
                     $("#user_idEdit").val(data.point.user_id).change();
 
                     // Generar el HTML para mostrar las evidencias
+                    $("#content").val('');
                     $("#content").val(data.evidence.content);
                     $(".btn-update-resource").attr('onclick', '_resource.update(' + data.point.id + ');');
 
                     // Generar el HTML para mostrar las evidencias
+                    $("#tabla-evidencias").empty();
                     _resource.drawEvidencesTable(data.attachments);
                 });
             },
 
             drawEvidencesTable: function(data) {
-                const tabla = document.createElement('table');
-                tabla.classList.add('table', 'table-responsive');
+            // Construir la tabla
+            var tabla = '<div class="container"><div class="row">';
 
-                // Crea y agrega el encabezado de la tabla
-                const encabezado = document.createElement('thead');
-                const filaEncabezado = document.createElement('tr');
-                const encabezados = ['Imagen', 'Nombre', 'Fecha', 'Usuario'];
+            data.forEach(function (evidencia) {
+                console.log(evidencia.path);
 
-                encabezados.forEach(encabezado => {
-                    const celda = document.createElement('th');
-                    celda.textContent = encabezado;
-                    filaEncabezado.appendChild(celda);
-                });
+                tabla += '<div class="col-md-4">';
+                tabla += '<div class="card mb-3">';
+                tabla += '<img src="' + evidencia.path + '" class="card-img-top" alt="Imagen de evidencia">';
+                tabla += '<div class="card-body">';
+                tabla += '<p class="card-text">Fecha/Hora: ' + evidencia.created_at + '</p>';
+                tabla += '<p class="card-text">Usuario: ' + evidencia.fullname + '</p>';
+                tabla += '<a href="' + evidencia.path + '" download>Descargar imagen</a>';
+                tabla += '</div></div></div>';
+            });
 
-                encabezado.appendChild(filaEncabezado);
-                tabla.appendChild(encabezado);
+            tabla += '</div></div>';
+            // Obtener el contenedor de la tabla
+            var tablaEvidencias = document.getElementById('tabla-evidencias');
 
-                // Crea y agrega las filas de la tabla con los datos de las evidencias
-                const cuerpo = document.createElement('tbody');
-
-                data.forEach(evidencia => {
-                    const fila = document.createElement('tr');
-
-                    // Celda de imagen
-                    const celdaImagen = document.createElement('td');
-                    const imagen = document.createElement('img');
-                    imagen.src = evidencia.photo_path;
-                    imagen.style.maxWidth = '100px'; // Ajusta el tamaño de la imagen según tus necesidades
-                    celdaImagen.appendChild(imagen);
-                    fila.appendChild(celdaImagen);
-
-                    // Celda de nombre
-                    const celdaNombre = document.createElement('td');
-                    celdaNombre.textContent = evidencia.nombre;
-                    fila.appendChild(celdaNombre);
-
-                    // Celda de fecha
-                    const celdaFecha = document.createElement('td');
-                    celdaFecha.textContent = evidencia.fecha;
-                    fila.appendChild(celdaFecha);
-
-                    // Celda de usuario
-                    const celdaUsuario = document.createElement('td');
-                    celdaUsuario.textContent = evidencia.usuario;
-                    fila.appendChild(celdaUsuario);
-
-                    cuerpo.appendChild(fila);
-                });
-
-                tabla.appendChild(cuerpo);
-
-                // Agrega la tabla al contenedor en la vista
-                const contenedor = document.getElementById('tabla-evidencias');
-                contenedor.appendChild(tabla);
+            // Construir la tabla de evidencias y añadirla al contenedor
+            tablaEvidencias.innerHTML = tabla;
             },
 
             update: function(id) {
-                var strName = $("#formEditResource input[name='strName']").val();
-                var strLabel = $("#formEditResource input[name='strLabel']").val();
+                var name = $("#formResource input[name='nameEdit']").val();
+                var address = $("#formResource input[name='addressEdit']").val();
+                var latitude = $("#formResource input[name='latitudeEdit']").val();
+                var longitude = $("#formResource input[name='longitudeEdit']").val();
+                var user_id = $("#user_idEdit").val();
 
-                var route = "{{ url('/studies/update') }}/" + id;
+                var route = "{{ url('/puntos/update') }}/" + id;
                 var responseValidate = _resource.validateForm(2);
                 if (responseValidate) {
                     $.ajax({
@@ -286,11 +262,14 @@
                         type: 'PUT',
                         dataType: 'json',
                         data: {
-                            strName: strName,
-                            strLabel: strLabel,
+                            name: name,
+                            address: address,
+                            latitude: latitude,
+                            longitude: longitude,
+                            user_id : user_id
                         },
                         success: function() {
-                            Notiflix.Notify.success('Parametro editado correctamente');
+                            Notiflix.Notify.success('Punto editado correctamente');
                             _resource.cancel();
                             _resource.reload();
                             _resource.initialize();
@@ -302,12 +281,20 @@
                 }
             },
 
-            validateForm: function() {
+            validateForm: function(type) {
                 let valid = true;
-                var name = $("#formResource input[name='name']").val();
-                var address = $("#formResource input[name='address']").val();
-                var latitude = $("#formResource input[name='latitude']").val();
-                var longitude = $("#formResource input[name='longitude']").val();
+                if (type == 1) {
+                    var name = $("#formResource input[name='name']").val();
+                    var address = $("#formResource input[name='address']").val();
+                    var latitude = $("#formResource input[name='latitude']").val();
+                    var longitude = $("#formResource input[name='longitude']").val();
+                } else {
+                    var name = $("#formResource input[name='nameEdit']").val();
+                    var address = $("#formResource input[name='addressEdit']").val();
+                    var latitude = $("#formResource input[name='latitudeEdit']").val();
+                    var longitude = $("#formResource input[name='longitudeEdit']").val();
+                }
+
 
                 if (name === '') {
                     valid = false;
