@@ -57,7 +57,7 @@ class ApiController extends Controller
         $base64Image = $request->file('photo'); // Obtén la cadena base64 de la imagen desde tu formulario o cualquier otra fuente de datos
 
         // Guardar la evidencia
-        $evidence = new Evidence;
+        $evidence = Evidence::find($request->evidence_id);
         $evidence->point_id = $pointId;
         $evidence->content = $evidenceData;
         $evidence->save();
