@@ -46,7 +46,7 @@ class ApiController extends Controller
         return response()->json($points);
     }
 
-    public function store(Request $request)
+    public function storeEvidence(Request $request)
     {
         // Obtener los datos de la solicitud
         $pointId = $request->input('point_id');
