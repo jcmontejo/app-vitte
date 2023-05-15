@@ -21,6 +21,7 @@ use App\Models\Plant\Catalogs\Oxidacion;
 use App\Models\Plant\Catalogs\WellPump;
 use App\Models\Point;
 use App\Models\Sedimentador;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -60,11 +61,10 @@ class ApiController extends Controller
         $evidence->save();
 
         // Guardar las evidencias fotográficas
-        // Decodifica la cadena base64 a datos binarios
-        $imageData = base64_decode($base64Image);
-
-        // Genera un nombre único para la imagen
-        $fileName = uniqid('image_') . '.png';
+        $base_to_php = explode(',', $base64Image);
+        $extension =  explode(";", explode("/", $base_to_php[0])[1])[0];
+        $imageData = base64_decode($base_to_php[1]);
+        $fileName = Carbon::now()->format('ymdhms') . '.' . $extension;
 
         // Crea una instancia de la clase Storage
         $storage = Storage::disk('evidences'); // Cambia 'public' por el disco que deseas utilizar
