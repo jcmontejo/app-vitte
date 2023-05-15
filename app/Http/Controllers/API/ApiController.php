@@ -72,6 +72,11 @@ class ApiController extends Controller
         // Guarda los datos binarios en el directorio 'storage'
         $storage->put($fileName, $imageData);
 
+        $photo_evidence = new PhotoEvidence();
+        $photo_evidence->evidence_id = $evidence->id;
+        $photo_evidence->photo_path = 'app/public/evidences/'.$fileName;
+        $photo_evidence->save();
+
         // Actualizar el estado del punto a completado
         $point = Point::find($pointId);
         $point->status = 'completado';
