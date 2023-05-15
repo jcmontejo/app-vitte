@@ -94,7 +94,7 @@ class PointController extends Controller
             ->get()
             ->map(function ($file){
                 return [
-                    'path' => asset('storage/'.$file->path),
+                    'path' => asset($file->path),
                     'created_at' => $file->created_at,
                     'fullname' => $file->fullname
                 ];
