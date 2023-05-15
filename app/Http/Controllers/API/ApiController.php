@@ -62,9 +62,11 @@ class ApiController extends Controller
 
         // Guardar las evidencias fotográficas
         $base_to_php = explode(',', $base64Image);
-        $extension =  explode(";", explode("/", $base_to_php[0])[1])[0];
+        // Obtén el tipo de imagen a partir de la cadena Base64
+        $imageType = explode('/', explode(':', substr($base64Image, 0, strpos($base64Image, ';')))[1])[1];
+        // $extension =  explode(";", explode("/", $base_to_php[0])[1])[0];
         $imageData = base64_decode($base_to_php[1]);
-        $fileName = Carbon::now()->format('ymdhms') . '.' . $extension;
+        $fileName = Carbon::now()->format('ymdhms') . '.' . $imageType;
 
         // Crea una instancia de la clase Storage
         $storage = Storage::disk('evidences'); // Cambia 'public' por el disco que deseas utilizar
