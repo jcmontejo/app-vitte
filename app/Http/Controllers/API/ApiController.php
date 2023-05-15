@@ -67,7 +67,7 @@ class ApiController extends Controller
         $fileName = uniqid('image_') . '.png';
 
         // Crea una instancia de la clase Storage
-        $storage = Storage::disk('public'); // Cambia 'public' por el disco que deseas utilizar
+        $storage = Storage::disk('public/evidences'); // Cambia 'public' por el disco que deseas utilizar
 
         // Guarda los datos binarios en el directorio 'storage'
         $storage->put($fileName, $imageData);
