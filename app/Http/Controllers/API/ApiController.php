@@ -37,6 +37,8 @@ class ApiController extends Controller
     {
         $userId = $request->intUser;
         $points = Point::where('user_id', $userId)
+        ->join('evidences','evidences.point_id','points.id')
+        ->select('points.*','evidences.id as evidence_id')
         ->get()
         ->map(function ($point){
             $coordinates = (object)['latitude'=> $point->latitude, 'longitude'=> $point->longitude];

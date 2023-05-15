@@ -73,6 +73,11 @@ class PointController extends Controller
         $point->status = ($point->user_id > 0) ? 'asignado' : 'pendiente';
         $point->save();
 
+         // Guardar la evidencia
+        $evidence = new Evidence;
+        $evidence->point_id = $point->id;
+        $evidence->save();
+
         return response()->json('success');
     }
 
