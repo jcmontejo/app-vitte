@@ -23,6 +23,7 @@ use App\Models\Point;
 use App\Models\Sedimentador;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -62,7 +63,6 @@ class ApiController extends Controller
         $evidence = Evidence::find($request->evidence_id);
         $evidence->point_id = $pointId;
         $evidence->content = $evidenceData;
-        $evidence->save();
 
         // Guardar las evidencias fotográficas
         // Obtén la imagen desde la solicitud (datos binarios o cadena base64)
@@ -75,18 +75,21 @@ class ApiController extends Controller
             $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
         }
 
-        // Guarda la imagen en el disco deseado (por ejemplo, disco "public")
-        Storage::disk('evidences')->put($fileName, $imageData);
-
         $photo_evidence = new PhotoEvidence();
         $photo_evidence->evidence_id = $evidence->id;
         $photo_evidence->photo_path = 'app/public/evidences/'.$fileName;
-        $photo_evidence->save();
 
         // Actualizar el estado del punto a completado
         $point = Point::find($pointId);
         $point->status = 'completado';
-        $point->save();
+
+        DB::transaction(function () use($evidence,$fileName,$imageData,$photo_evidence,$point){
+            $evidence->save();
+            // Guarda la imagen en el disco deseado (por ejemplo, disco "public")
+            Storage::disk('evidences')->put($fileName, $imageData);
+            $photo_evidence->save();
+            $point->save();
+        });
 
         return response()->json(['message' => 'Evidencia guardada y punto actualizado']);
     }
