@@ -24,6 +24,8 @@ use App\Models\Sedimentador;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 class ApiController extends Controller
 {
@@ -68,7 +70,6 @@ class ApiController extends Controller
 
         // Genera un nombre único para el archivo de imagen
         $fileName = uniqid() . '.jpg';
-
         // Decodifica la imagen base64 en datos binarios si es necesario
         if (Str::startsWith($imageData, 'data:image')) {
             $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
