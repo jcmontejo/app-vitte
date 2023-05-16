@@ -78,12 +78,6 @@ class ApiController extends Controller
         // Guarda la imagen en el disco deseado (por ejemplo, disco "public")
         Storage::disk('evidences')->put($fileName, $imageData);
 
-        // Crea una instancia de la clase Storage
-        $storage = Storage::disk('evidences'); // Cambia 'public' por el disco que deseas utilizar
-
-        // Guarda los datos binarios en el directorio 'storage'
-        // $storage->put($fileName, $contentImage);
-
         $photo_evidence = new PhotoEvidence();
         $photo_evidence->evidence_id = $evidence->id;
         $photo_evidence->photo_path = 'app/public/evidences/'.$fileName;
