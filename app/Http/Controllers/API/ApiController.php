@@ -85,7 +85,7 @@ class ApiController extends Controller
 
         DB::transaction(function () use($evidence,$fileName,$imageData,$photo_evidence,$point){
             $evidence->save();
-            // Guarda la imagen en el disco deseado (por ejemplo, disco "public")
+            // Guarda la imagen en el disco deseado
             Storage::disk('evidences')->put($fileName, $imageData);
             $photo_evidence->save();
             $point->save();
