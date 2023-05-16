@@ -63,17 +63,27 @@ class ApiController extends Controller
         $evidence->save();
 
         // Guardar las evidencias fotográficas
-        $base_to_php = explode(";base64,", $base64Image);
-        $explodeImage = explode("image/", $base_to_php[0]);
-        $extension =  $explodeImage[1];
-        $contentImage = base64_decode($base_to_php[1]);
-        $fileName = Carbon::now()->format('ymdhms') . '.' . $extension;
+        // Obtén la imagen base64 desde la solicitud
+        $base64Image = $request->input('photo');
+
+        // Genera un nombre único para el archivo de imagen
+        $fileName = uniqid() . '.jpg';
+
+        // Decodifica la imagen base64 en datos binarios
+        $imageData = base64_decode($base64Image);
+
+        // Define el directorio de destino
+        $destinationPath = storage_path('app/public/evidences');
+
+        // Guarda la imagen en el disco local
+        file_put_contents($destinationPath . '/' . $fileName, $imageData, FILE_BINARY);
+
 
         // Crea una instancia de la clase Storage
         $storage = Storage::disk('evidences'); // Cambia 'public' por el disco que deseas utilizar
 
         // Guarda los datos binarios en el directorio 'storage'
-        $storage->put($fileName, $contentImage);
+        // $storage->put($fileName, $contentImage);
 
         $photo_evidence = new PhotoEvidence();
         $photo_evidence->evidence_id = $evidence->id;
