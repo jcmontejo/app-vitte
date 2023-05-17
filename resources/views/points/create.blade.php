@@ -32,20 +32,22 @@
                             <option value="">Seleccione un usuario</option>
                             <!-- Aquí puedes agregar opciones de usuarios desde tu base de datos -->
                             @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }} {{ $user->strLastName }}</option>
+                                <option value="{{ $user->id }}">{{ $user->name }} {{ $user->strLastName }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                <div id="map"></div>
                 <a href="javascript:void(0);" onclick="_resource.save();" class="btn btn-primary">
                     GUARDAR</a>
                 <a href="javascript:void(0);" onclick="_resource.cancel();" class="btn btn-danger">
                     CANCELAR</a>
             </form>
             <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-xl-8 mt-1">
-                <h3>Mapa</h3>
+                <h1>Seleccionar ubicación en el mapa</h1>
                 <div id="map"></div>
+                <input type="text" id="address" placeholder="Ingresa una dirección">
+                <button onclick="geocodeAddress()">Buscar</button>
             </div>
         </div>
     </div>
