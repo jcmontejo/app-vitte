@@ -41,13 +41,13 @@ class ApiController extends Controller
         $userId = $request->intUser;
         $points = Point::where('user_id', $userId)
         ->join('evidences','evidences.point_id','points.id')
-        ->select('points.*','evidences.id as evidence_id')
+        ->select('points.*','evidences.id as evidence_id','evidences.content as comment')
         ->get()
         ->map(function ($point){
             $coordinates = (object)['latitude'=> $point->latitude, 'longitude'=> $point->longitude];
             $point->coordinates = $coordinates;
             $files = PhotoEvidence::join('evidences as t1','t1.id','photo_evidences.evidence_id')
-                ->select('photo_evidences.photo_path','t1.content as comment')
+                ->select('photo_evidences.photo_path')
                 ->where('t1.point_id',$point->id)
                 ->get()
                 ->map(function($file){
