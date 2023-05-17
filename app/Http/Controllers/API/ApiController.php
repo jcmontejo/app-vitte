@@ -55,7 +55,7 @@ class ApiController extends Controller
                     $file->path = $path;
                     return $file;
                 });
-            $point->files = $files;
+            $point->files = $files ?? [];
             return $point;
         });
 
