@@ -46,8 +46,19 @@ class ApiController extends Controller
         ->map(function ($point){
             $coordinates = (object)['latitude'=> $point->latitude, 'longitude'=> $point->longitude];
             $point->coordinates = $coordinates;
+            $files = PhotoEvidence::join('evidences as t1','t1.id','photo_evidences.evidence_id')
+                ->select('photo_evidences.photo_path')
+                ->where('t1.point_id',$point->id)
+                ->get()
+                ->map(function($file){
+                    $path = asset($file->photo_path);
+                    $file->path = $path;
+                    return $file;
+                });
+            $point->files = $files;
             return $point;
         });
+
 
         return response()->json($points);
     }
