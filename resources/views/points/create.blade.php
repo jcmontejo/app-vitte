@@ -38,17 +38,23 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-1 mb-2">
+                    <p>Seleccionar ubicación en el mapa</p>
+                    <div class="row mb-2">
+                        <div class="col-md-8">
+                            <input type="text" id="address" class="form-control" placeholder="Ingresa una dirección">
+                        </div>
+                        <div class="col-md-4">
+                            <button onclick="geocodeAddress()" class="btn btn-primary">Buscar</button>
+                        </div>
+                    </div>
+                    <div id="map"></div>
+                </div>
                 <a href="javascript:void(0);" onclick="_resource.save();" class="btn btn-primary">
                     GUARDAR</a>
                 <a href="javascript:void(0);" onclick="_resource.cancel();" class="btn btn-danger">
                     CANCELAR</a>
             </form>
-            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-xl-8 mt-1">
-                <h1>Seleccionar ubicación en el mapa</h1>
-                <div id="map"></div>
-                <input type="text" id="address" placeholder="Ingresa una dirección">
-                <button onclick="geocodeAddress()">Buscar</button>
-            </div>
         </div>
     </div>
 </div>

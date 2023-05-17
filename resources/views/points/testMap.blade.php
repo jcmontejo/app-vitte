@@ -2,8 +2,8 @@
 @section('content')
 <h1>Seleccionar ubicación en el mapa</h1>
 <div id="map"></div>
-<input type="text" id="address" placeholder="Ingresa una dirección">
-<button onclick="geocodeAddress()">Buscar</button>
+<input class="form-control" type="text" id="address" placeholder="Ingresa una dirección">
+<button class="btn btn-primary" onclick="geocodeAddress()">Buscar</button>
 @endsection
 @section('js')
 <script>
@@ -60,5 +60,5 @@
         });
     }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBytIUyY1c26GP7wpi0UZrkciY6FFxUO24&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-yb2rV5EzMyQrms4k7XqxStIO-ideHTY&callback=initMap"></script>
 @endsection
