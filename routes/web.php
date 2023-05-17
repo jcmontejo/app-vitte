@@ -78,3 +78,7 @@ Route::get('/puntos/data/', [PointController::class, 'getData']);
 Route::any('/puntos/store', [PointController::class,'store']);
 Route::get('/puntos/edit/{id}', [PointController::class, 'edit']);
 Route::put('/puntos/update/{id}', [PointController::class,'update']);
+
+Route::get('testMap',function(){
+    return view('points.testMap');
+});

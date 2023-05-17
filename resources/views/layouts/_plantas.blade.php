@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="{{ asset('/assets/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/datatables-buttons/css/buttons.bootstrap4.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-    <link href="{{ asset('/assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
-        type="text/css" />
+    {{-- <link href="{{ asset('/assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
+        type="text/css" /> --}}
     <style>
         /* Importar la fuente Roboto de Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -52,12 +52,11 @@
             border-color: #FFA500;
         }
 
-        .mandatory{
+        .mandatory {
             color: red;
         }
     </style>
 </head>
-
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-blue">
         <a class="navbar-brand" href="{{ url('/dashboard') }}">CONTROL OPERATIVO</a>
@@ -68,10 +67,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 @role('admin-plantas')
-                @include('layouts.partials._navbar_plantas')
+                    @include('layouts.partials._navbar_plantas')
                 @endrole
                 @role('admin-otra-plataforma')
-                @include('layouts.partials._navbar_alterno')
+                    @include('layouts.partials._navbar_alterno')
                 @endrole
             </ul>
         </div>
