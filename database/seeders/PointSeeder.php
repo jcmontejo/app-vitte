@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Evidence;
 use App\Models\Point;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -38,6 +39,11 @@ class PointSeeder extends Seeder
             $point->status = $faker->randomElement(['asignado']);
             $point->created_at = $faker->dateTimeBetween('-1 year', 'now');
             $point->save();
+
+            $evidence = new Evidence();
+            $evidence->point_id = $point->id;
+            $evidence->content = '';
+            $evidence->save();
         }
     }
 }

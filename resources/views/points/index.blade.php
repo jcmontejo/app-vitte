@@ -2,66 +2,93 @@
 @extends('layouts._plantas')
 {{-- Content --}}
 @section('content')
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    <!--begin::Container-->
-    <div id="indexResource" class="container-xxl">
-        <!--begin::Card-->
-        <div class="card">
-            <!--begin::Card header-->
-            <div class="card-header border-0 pt-6">
-                <!--begin::Card title-->
-                <div class="card-title">
-                </div>
-                <div class="card-toolbar">
-                    <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                        <a href="javascript:void(0)" onclick="_resource.create();" type="button"
-                            class="btn button-primary" data-bs-target="#kt_modal_add_user">
-                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                            <i class="fas fa-plus"></i>
-                            Crear Punto
-                        </a>
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Container-->
+        <div id="indexResource" class="container-xxl">
+            <!--begin::Card-->
+            <div class="card">
+                <!--begin::Card header-->
+                <div class="card-header border-0 pt-6">
+                    <!--begin::Card title-->
+                    <div class="card-title">
+                    </div>
+                    <div class="card-toolbar">
+                        <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                            <a href="javascript:void(0)" onclick="_resource.create();" type="button"
+                                class="btn button-primary" data-bs-target="#kt_modal_add_user">
+                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                <i class="fas fa-plus"></i>
+                                Crear Punto
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="card-body pt-0">
-                <!--begin::Table-->
-                <table class="table align-middle table-row-dashed fs-6 gy-5" id="tableResource">
-                    <!--begin::Table head-->
-                    <thead class="table-title">
-                        <!--begin::Table row-->
-                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
-                        <th class="min-w-10px">#</th>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Direccion</th>
-                        <th>Latitud</th>
-                        <th>Longitud</th>
-                        <th>Estatus</th>
-                    </tr>
-                        </tr>
-                        <!--end::Table row-->
-                    </thead>
+                <div class="card-body pt-0">
+                    <!--begin::Table-->
+                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="tableResource">
+                        <!--begin::Table head-->
+                        <thead class="table-title">
+                            <!--begin::Table row-->
+                            <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+                                <th class="min-w-10px">#</th>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Direccion</th>
+                                <th>Latitud</th>
+                                <th>Longitud</th>
+                                <th>Estatus</th>
+                            </tr>
+                            </tr>
+                            <!--end::Table row-->
+                        </thead>
 
-                </table>
-                <!--end::Table-->
+                    </table>
+                    <!--end::Table-->
+                </div>
+                <!--end::Card body-->
             </div>
-            <!--end::Card body-->
+            <!--end::Card-->
         </div>
-        <!--end::Card-->
+        @include('points.edit')
+        @include('points.create')
     </div>
-    @include('points.edit')
-    @include('points.create')
-</div>
 @endsection
 @section('js')
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBytIUyY1c26GP7wpi0UZrkciY6FFxUO24&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBytIUyY1c26GP7wpi0UZrkciY6FFxUO24&libraries=places">
+    </script>
     <!-- Agrega un script para inicializar Datatables -->
     <script>
         var baseUrl = "{{ url('/storage/') }}";
     </script>
     <script>
         var _resource = {
+            initializeMap: function() {
+                // Crear el mapa
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: {
+                        lat: 0,
+                        lng: 0
+                    }, // Coordenadas iniciales del mapa
+                    zoom: 8 // Nivel de zoom inicial
+                });
+
+                // Agregar un marcador al hacer clic en el mapa
+                var marker = new google.maps.Marker({
+                    map: map,
+                    draggable: true // Permite arrastrar el marcador
+                });
+
+                // Obtener la latitud y longitud al mover el marcador
+                google.maps.event.addListener(marker, 'dragend', function(event) {
+                    var lat = event.latLng.lat();
+                    var lng = event.latLng.lng();
+
+                    // Asignar los valores de latitud y longitud a los campos correspondientes
+                    document.getElementById('latitude').value = lat;
+                    document.getElementById('longitude').value = lng;
+                });
+            },
             initialize: function() {
                 $('#tableResource').DataTable({
                     "language": {
@@ -130,7 +157,7 @@
                             address: address,
                             latitude: latitude,
                             longitude: longitude,
-                            user_id : user_id
+                            user_id: user_id
                         },
                         success: function() {
                             Notiflix.Notify.success('Punto agregado correctamente');
@@ -220,28 +247,29 @@
             },
 
             drawEvidencesTable: function(data) {
-            // Construir la tabla
-            var tabla = '<div class="container"><div class="row">';
+                // Construir la tabla
+                var tabla = '<div class="container"><div class="row">';
 
-            data.forEach(function (evidencia) {
-                console.log(evidencia.path);
+                data.forEach(function(evidencia) {
+                    console.log(evidencia.path);
 
-                tabla += '<div class="col-md-4">';
-                tabla += '<div class="card mb-3">';
-                tabla += '<img src="' + evidencia.path + '" class="card-img-top" alt="Imagen de evidencia">';
-                tabla += '<div class="card-body">';
-                tabla += '<p class="card-text">Fecha/Hora: ' + evidencia.created_at + '</p>';
-                tabla += '<p class="card-text">Usuario: ' + evidencia.fullname + '</p>';
-                tabla += '<a href="' + evidencia.path + '" download>Descargar imagen</a>';
-                tabla += '</div></div></div>';
-            });
+                    tabla += '<div class="col-md-4">';
+                    tabla += '<div class="card mb-3">';
+                    tabla += '<img src="' + evidencia.path +
+                        '" class="card-img-top" alt="Imagen de evidencia">';
+                    tabla += '<div class="card-body">';
+                    tabla += '<p class="card-text">Fecha/Hora: ' + evidencia.created_at + '</p>';
+                    tabla += '<p class="card-text">Usuario: ' + evidencia.fullname + '</p>';
+                    tabla += '<a href="' + evidencia.path + '" download>Descargar imagen</a>';
+                    tabla += '</div></div></div>';
+                });
 
-            tabla += '</div></div>';
-            // Obtener el contenedor de la tabla
-            var tablaEvidencias = document.getElementById('tabla-evidencias');
+                tabla += '</div></div>';
+                // Obtener el contenedor de la tabla
+                var tablaEvidencias = document.getElementById('tabla-evidencias');
 
-            // Construir la tabla de evidencias y añadirla al contenedor
-            tablaEvidencias.innerHTML = tabla;
+                // Construir la tabla de evidencias y añadirla al contenedor
+                tablaEvidencias.innerHTML = tabla;
             },
 
             update: function(id) {
@@ -266,7 +294,7 @@
                             address: address,
                             latitude: latitude,
                             longitude: longitude,
-                            user_id : user_id
+                            user_id: user_id
                         },
                         success: function() {
                             Notiflix.Notify.success('Punto editado correctamente');
@@ -318,33 +346,7 @@
         }
         $(document).ready(function() {
             _resource.initialize();
-            initMap();
+            // _resource.initializeMap();
         });
-    </script>
-    <script>
-        function initMap() {
-            // Ubicación inicial del mapa
-            var initialLocation = { lat: 0, lng: 0 };
-
-            // Crear mapa
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: initialLocation,
-                zoom: 12
-            });
-
-            // Agregar marcador arrastrable
-            var marker = new google.maps.Marker({
-                position: initialLocation,
-                map: map,
-                draggable: true
-            });
-
-            // Actualizar latitud y longitud al arrastrar el marcador
-            google.maps.event.addListener(marker, 'dragend', function(event) {
-                var latLng = event.latLng;
-                document.getElementById('latitude').value = latLng.lat();
-                document.getElementById('longitude').value = latLng.lng();
-            });
-        }
     </script>
 @endsection

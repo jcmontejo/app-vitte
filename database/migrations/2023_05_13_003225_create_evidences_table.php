@@ -16,6 +16,8 @@ class CreateEvidencesTable extends Migration
         Schema::create('evidences', function (Blueprint $table) {
             $table->id();
             $table->text('content');
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
             $table->foreignId('point_id')->constrained('points')->onDelete('cascade');
             $table->timestamps();
         });

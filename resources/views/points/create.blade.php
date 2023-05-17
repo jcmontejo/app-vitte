@@ -37,6 +37,7 @@
                         </select>
                     </div>
                 </div>
+                <div id="map"></div>
                 <a href="javascript:void(0);" onclick="_resource.save();" class="btn btn-primary">
                     GUARDAR</a>
                 <a href="javascript:void(0);" onclick="_resource.cancel();" class="btn btn-danger">
