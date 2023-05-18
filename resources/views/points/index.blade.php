@@ -5,16 +5,15 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4" id="indexResource">
         <div class="card-header py-3">
-            <div class="card-header border-0 pt-6">
-                <!--begin::Card title-->
+            <div class="card-header border-0 pt-6 d-flex justify-content-between align-items-center">
+                <!-- Título -->
                 <div class="card-title">
-                    Puntos registrados
+                    <h1 class="h3 mb-2 text-gray-800"> Puntos registrados</h1>
                 </div>
+                <!-- Botón Crear -->
                 <div class="card-toolbar">
-                    <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                        <a href="javascript:void(0)" onclick="_resource.create();" type="button"
-                            class="btn btn-primary" data-bs-target="#kt_modal_add_user">
-                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                    <div>
+                        <a href="javascript:void(0)" onclick="_resource.create();" type="button" class="btn btn-primary" data-bs-target="#kt_modal_add_user">
                             <i class="fas fa-plus"></i>
                             Crear Punto
                         </a>
@@ -22,6 +21,7 @@
                 </div>
             </div>
         </div>
+
         <div class="card-body">
             <!--begin::Table-->
             <table class="table align-middle table-row-dashed fs-6 gy-5" id="tableResource">
@@ -318,6 +318,7 @@
         });
     </script>
     <script>
+        var marker = undefined;
         // Inicializar mapa
         function initMap() {
             // Coordenadas iniciales (por ejemplo, Ciudad de México)
@@ -354,7 +355,7 @@
         // Geocodificar dirección ingresada por el usuario
         function geocodeAddress() {
             var geocoder = new google.maps.Geocoder();
-            var address = document.getElementById('address').value;
+            var address = document.getElementById('strAddress').value;
 
             geocoder.geocode({
                 'address': address
@@ -367,6 +368,7 @@
                     var map = new google.maps.Map(document.getElementById('map'));
 
                     // Mover el marcador a la nueva ubicación
+                    var marker = new google.maps.Marker({ map: map }); // Crear una instancia de Marker y asignarla a la variable marker
                     map.panTo(location);
                     marker.setPosition(location);
                     updateLatLng(location);

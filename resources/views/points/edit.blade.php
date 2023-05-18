@@ -3,6 +3,7 @@
         <div class="card-header border-0 pt-6">
             <!--begin::Card title-->
             <div class="card-title">
+                <h1 class="h3 mb-2 text-gray-800"> Editar Punto</h1>
             </div>
         </div>
     </div>

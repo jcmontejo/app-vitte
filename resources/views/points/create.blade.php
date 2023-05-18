@@ -3,6 +3,7 @@
         <div class="card-header border-0 pt-6">
             <!--begin::Card title-->
             <div class="card-title">
+                <h1 class="h3 mb-2 text-gray-800"> Crear Punto</h1>
             </div>
         </div>
     </div>
@@ -41,7 +42,7 @@
                 <p>Seleccionar ubicación en el mapa</p>
                 <div class="row mb-2">
                     <div class="col-md-8">
-                        <input type="text" id="address" class="form-control" placeholder="Ingresa una dirección">
+                        <input type="text" id="strAddress" class="form-control strAddress" placeholder="Ingresa una dirección">
                     </div>
                     <div class="col-md-4">
                         <button onclick="geocodeAddress()" class="btn btn-primary">Buscar</button>
