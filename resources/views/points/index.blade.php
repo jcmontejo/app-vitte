@@ -1,66 +1,61 @@
 {{-- Extends layout --}}
-@extends('layouts._plantas')
+@extends('layouts.sbadmin')
 {{-- Content --}}
 @section('content')
-    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Container-->
-        <div id="indexResource" class="container-xxl">
-            <!--begin::Card-->
-            <div class="card">
-                <!--begin::Card header-->
-                <div class="card-header border-0 pt-6">
-                    <!--begin::Card title-->
-                    <div class="card-title">
-                    </div>
-                    <div class="card-toolbar">
-                        <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                            <a href="javascript:void(0)" onclick="_resource.create();" type="button"
-                                class="btn button-primary" data-bs-target="#kt_modal_add_user">
-                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                                <i class="fas fa-plus"></i>
-                                Crear Punto
-                            </a>
-                        </div>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4" id="indexResource">
+        <div class="card-header py-3">
+            <div class="card-header border-0 pt-6">
+                <!--begin::Card title-->
+                <div class="card-title">
+                    Puntos registrados
+                </div>
+                <div class="card-toolbar">
+                    <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                        <a href="javascript:void(0)" onclick="_resource.create();" type="button"
+                            class="btn btn-primary" data-bs-target="#kt_modal_add_user">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                            <i class="fas fa-plus"></i>
+                            Crear Punto
+                        </a>
                     </div>
                 </div>
-
-                <div class="card-body pt-0">
-                    <!--begin::Table-->
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="tableResource">
-                        <!--begin::Table head-->
-                        <thead class="table-title">
-                            <!--begin::Table row-->
-                            <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
-                                <th class="min-w-10px">#</th>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Direccion</th>
-                                <th>Latitud</th>
-                                <th>Longitud</th>
-                                <th>Estatus</th>
-                            </tr>
-                            </tr>
-                            <!--end::Table row-->
-                        </thead>
-
-                    </table>
-                    <!--end::Table-->
-                </div>
-                <!--end::Card body-->
             </div>
-            <!--end::Card-->
         </div>
-        @include('points.edit')
-        @include('points.create')
+        <div class="card-body">
+            <!--begin::Table-->
+            <table class="table align-middle table-row-dashed fs-6 gy-5" id="tableResource">
+                <!--begin::Table head-->
+                <thead class="table-title">
+                    <!--begin::Table row-->
+                    <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+                        <th class="min-w-10px">#</th>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Direccion</th>
+                        <th>Latitud</th>
+                        <th>Longitud</th>
+                        <th>Estatus</th>
+                    </tr>
+                    </tr>
+                    <!--end::Table row-->
+                </thead>
+
+            </table>
+            <!--end::Table-->
+        </div>
     </div>
+    @include('points.create')
+    @include('points.edit')
+@endsection
+@section('css')
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
 @endsection
 @section('js')
-    <script src="{{ asset('js_system/getMaps.js') }}"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBytIUyY1c26GP7wpi0UZrkciY6FFxUO24&callback=initMap"></script>
-    <!-- Agrega un script para inicializar Datatables -->
-    <script>
-        var baseUrl = "{{ url('/storage/') }}";
-    </script>
     <script>
         var _resource = {
             initialize: function() {
@@ -326,7 +321,10 @@
         // Inicializar mapa
         function initMap() {
             // Coordenadas iniciales (por ejemplo, Ciudad de México)
-            var initialLatLng = { lat: 19.4326, lng: -99.1332 };
+            var initialLatLng = {
+                lat: 19.4326,
+                lng: -99.1332
+            };
 
             // Crear mapa
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -358,7 +356,9 @@
             var geocoder = new google.maps.Geocoder();
             var address = document.getElementById('address').value;
 
-            geocoder.geocode({ 'address': address }, function(results, status) {
+            geocoder.geocode({
+                'address': address
+            }, function(results, status) {
                 if (status === 'OK') {
                     // Obtener la ubicación geográfica de la primera coincidencia
                     var location = results[0].geometry.location;
@@ -376,5 +376,6 @@
             });
         }
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-yb2rV5EzMyQrms4k7XqxStIO-ideHTY&callback=initMap"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-yb2rV5EzMyQrms4k7XqxStIO-ideHTY&callback=initMap"></script>
 @endsection

@@ -1,9 +1,7 @@
-@extends('layouts._plantas')
+@extends('layouts.sbadmin')
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mt-2 mb-2 w-100">
     <h1 class="h3 text-gray-800 m-0"><i class="fas fa-fw fa-tachometer-alt"></i> Información General<br>
-        <font class="text-cCases text-bold" style="font-size:15px;"><a id="mTitle" style="font-size:15px;">Todas las
-                Plantas</a></font>
     </h1>
     <div class="text-right">
         <font class="text-xs m-0 p-0">
@@ -32,18 +30,3 @@
     </script>
 @endrole
 @endsection
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        Datatables Responsive
-        $("#tblAsistencias").DataTable({
-            responsive: true,
-            dom: 'Bfrtip',
-            order: [
-                [1, 'desc']
-            ],
-            buttons: [
-                'excel', 'pdf'
-            ]
-        });
-    });
-</script>
