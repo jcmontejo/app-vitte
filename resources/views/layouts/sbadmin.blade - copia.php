@@ -125,8 +125,6 @@
         <script src="{{ asset('/assets/datatables-buttons/js/dataTables.buttons.min.js') }}" defer></script>
         <script src="{{ asset('/assets/datatables-buttons/js/buttons.html5.min.js') }}" defer></script>
         <script src="{{ asset('/assets/js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ asset('codebase/dhtmlxgantt.js?v=8.0.1') }}"></script>
-        <link rel="stylesheet" href="{{ asset('codebase/dhtmlxgantt.css?v=8.0.1') }}">
         @yield('js')
 
 </body>

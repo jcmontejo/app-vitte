@@ -58,9 +58,9 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">Cartografía y estadística
+                <a class="collapse-item" target="_blank" href="https://northtek.maps.arcgis.com/apps/webappviewer/index.html?id=21f2e34a3bfe4236926d6942cac4cc70">Cartografía y estadística
                     electoral</a>
-                <a class="collapse-item" href="utilities-border.html">Cartografía de fuerza política</a>
+                <a class="collapse-item" target="_blank" href="utilities-border.html">Cartografía de fuerza política</a>
                 <a class="collapse-item" href="utilities-animation.html">Históricos de fuerzas políticas</a>
             </div>
         </div>

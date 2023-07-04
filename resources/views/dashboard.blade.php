@@ -9,6 +9,9 @@
         </font>
     </div>
 </div>
+<div class="row" style="height: 650px !important;">
+    <div id="gantt_here" style='width:100%; height:100%;'></div>
+</div>
 @role('admin-otra-plataforma')
     {{-- Código HTML a mostrar si el usuario tiene el rol 'admin-plantas' --}}
     <div id="gantt_here" style='width:100%; height:100%;'></div>
@@ -29,4 +32,9 @@
         gantt.parse(demo_tasks);
     </script>
 @endrole
+<script>
+    gantt.config.touch = "force";
+    gantt.init("gantt_here");
+    gantt.parse(demo_tasks);
+</script>
 @endsection
